@@ -12,7 +12,7 @@ const TETRO_TYPES = [
 
 //0.空
     [],
-    
+
 // 1.I
     [
         [ 0, 0, 0, 0 ],
@@ -69,3 +69,23 @@ const TETRO_TYPES = [
         [ 0, 0, 0, 0 ]
     ]
 ];
+
+// 描画対象のテトロミノ
+let tetro = TETRO_TYPES[3];
+
+// canvasに描画
+for(let y = 0; y < TETRO_SIZE; y++)
+{
+    for(let x = 0; x < TETRO_SIZE; x++)
+    {
+        if(tetro[x][y])
+        {
+            let px = x * BLOCK_SIZE;
+            let py = y * BLOCK_SIZE;
+            context.fillStyle = "red";
+            context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+            context.strokeStyle = "black";
+            context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+        }
+    }
+}
