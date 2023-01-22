@@ -7,7 +7,6 @@ const BLOCK_SIZE = 30;
 //テトロミノのサイズ
 const TETRO_SIZE = 4;
 
-
 const TETRO_TYPES = [
 
 //0.空
