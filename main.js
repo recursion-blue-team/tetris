@@ -102,14 +102,14 @@ function initialize()
             field[y][x] = 0;
         }
     }
-    
+
     //テストで表示しているブロック
     field[19][9] = 1;
 }
 
 //フィールドを表示する関数です
 function draw_field()
-{   
+{
     context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     for(let y = 0; y < FIELD_ROW; y++)
@@ -145,7 +145,7 @@ function draw_block(x, y)
 
 //テトロミノを描画する関数です
 function draw_tetro()
-{   
+{
     for(let y = 0; y < TETRO_SIZE; y++)
     {
         for(let x = 0; x < TETRO_SIZE; x++)
@@ -158,23 +158,42 @@ function draw_tetro()
     }
 }
 
+// ブロックの当たり判定
+function canMove(movement_x, movement_y)
+{
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            if(tetro[y][x])
+            {
+                let new_x = tetro_x + movement_x + x;
+                let new_y = tetro_y + movement_y + y;
+                if(new_y < 0 || new_y >= FIELD_ROW || // yがフィールド外に出るとき
+                    new_x < 0 || new_x >= FIELD_COL || // xがフィールド外に出るとき
+                    field[new_y][new_x]) return false; // 移動地点にブロックがあるとき
+            }
+        }
+    }
+    return true;
+}
 
 // テトロミノの移動するイベント関数です。
 document.onkeydown = function(e)
-{    
+{
     switch(e.key)
-    { 
+    {
         case "ArrowLeft": // ←
-            tetro_x--;
+            if(canMove(-1, 0)) tetro_x--;
             break;
         case "ArrowUp": // ↑
-            tetro_y--;
+            if(canMove(0, -1)) tetro_y--;
             break;
         case "ArrowRight": // →
-            tetro_x++;
+            if(canMove(1, 0)) tetro_x++;
             break;
         case "ArrowDown": // ↓
-            tetro_y++;
+            if(canMove(0, 1)) tetro_y++;
             break;
         case "Space": // スペースキー(回転)
             //回転する処理が入ります。
@@ -182,4 +201,4 @@ document.onkeydown = function(e)
     }
     draw_field();
     draw_tetro();
-} 
+}
