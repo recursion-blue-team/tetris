@@ -12,12 +12,14 @@ const TETRO_SIZE = 4;
 const FIELD_COL = 10;
 const FIELD_ROW = 20;
 
+
+
 //キャンバスサイズ
 const SCREEN_WIDTH = BLOCK_SIZE * FIELD_COL; // 300px
 const SCREEN_HEIGHT = BLOCK_SIZE * FIELD_ROW; // 600px
 canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
-
+canvas.style.border = "4px solid #555";
 
 const TETRO_TYPES = [
 
@@ -86,29 +88,71 @@ const TETRO_TYPES = [
 let tetro_x = 0;
 let tetro_y = 0;
 
+//フィールド本体を一次元配列とする
+let field = [];
+
+//二次元配列にしてフィールドを初期化する関数です
+function initialize()
+{
+    for (let y = 0; y < FIELD_ROW; y++)
+    {
+        field[y] = [];
+        for (let x = 0; x < FIELD_COL; x++)
+        {
+            field[y][x] = 0;
+        }
+    }
+    
+    //テストで表示しているブロック
+    field[19][9] = 1;
+}
+
+//フィールドを表示する関数です
+function draw_field()
+{   
+    context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    for(let y = 0; y < FIELD_ROW; y++)
+    {
+        for(let x = 0; x < FIELD_COL; x++)
+        {
+            if(field[y][x])
+            {
+                draw_block(x, y);
+            }
+        }
+    }
+}
+
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[3];
 
-
+initialize();
+draw_field();
 draw_tetro();
+
+
+//ブロック一つを描画する関数です
+function draw_block(x, y)
+{
+    let px = x * BLOCK_SIZE;
+    let py = y * BLOCK_SIZE;
+    context.fillStyle = "red";
+    context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+    context.strokeStyle = "black";
+    context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+}
 
 //テトロミノを描画する関数です
 function draw_tetro()
 {   
-    context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
     for(let y = 0; y < TETRO_SIZE; y++)
     {
         for(let x = 0; x < TETRO_SIZE; x++)
         {
             if(tetro[y][x])
             {
-                let px = (tetro_x + x) * BLOCK_SIZE;
-                let py = (tetro_y + y) * BLOCK_SIZE;
-                context.fillStyle = "red";
-                context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
-                context.strokeStyle = "black";
-                context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+                draw_block(tetro_x + x, tetro_y + y)
             }
         }
     }
@@ -136,5 +180,6 @@ document.onkeydown = function(e)
             //回転する処理が入ります。
             break;
     }
+    draw_field();
     draw_tetro();
 } 
