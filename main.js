@@ -85,8 +85,8 @@ const TETRO_TYPES = [
 
 
 // テトロミノの初期座標
-let tetro_x = 0;
-let tetro_y = 0;
+let tetroX = 0;
+let tetroY = 0;
 
 //フィールド本体を一次元配列とする
 let field = [];
@@ -108,7 +108,7 @@ function initialize()
 }
 
 //フィールドを表示する関数です
-function draw_field()
+function drawField()
 {
     context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -118,7 +118,7 @@ function draw_field()
         {
             if(field[y][x])
             {
-                draw_block(x, y);
+                drawBlock(x, y);
             }
         }
     }
@@ -128,12 +128,12 @@ function draw_field()
 let tetro = TETRO_TYPES[3];
 
 initialize();
-draw_field();
-draw_tetro();
+drawField();
+drawTetro();
 
 
 //ブロック一つを描画する関数です
-function draw_block(x, y)
+function drawBlock(x, y)
 {
     let px = x * BLOCK_SIZE;
     let py = y * BLOCK_SIZE;
@@ -144,7 +144,7 @@ function draw_block(x, y)
 }
 
 //テトロミノを描画する関数です
-function draw_tetro()
+function drawTetro()
 {
     for(let y = 0; y < TETRO_SIZE; y++)
     {
@@ -152,53 +152,71 @@ function draw_tetro()
         {
             if(tetro[y][x])
             {
-                draw_block(tetro_x + x, tetro_y + y)
+                drawBlock(tetroX + x, tetroY + y)
             }
         }
     }
 }
 
 // ブロックの当たり判定
-function canMove(movement_x, movement_y)
-{
+function canMove(movementX, movementY, newTetro = tetro)
+{   
     for(let y = 0; y < TETRO_SIZE; y++)
     {
         for(let x = 0; x < TETRO_SIZE; x++)
         {
-            if(tetro[y][x])
+            if(newTetro[y][x])
             {
-                let new_x = tetro_x + movement_x + x;
-                let new_y = tetro_y + movement_y + y;
-                if(new_y < 0 || new_y >= FIELD_ROW || // yがフィールド外に出るとき
-                    new_x < 0 || new_x >= FIELD_COL || // xがフィールド外に出るとき
-                    field[new_y][new_x]) return false; // 移動地点にブロックがあるとき
+                let newX = tetroX + movementX + x;
+                let newY = tetroY + movementY + y;
+                if(newY < 0 || newY >= FIELD_ROW || // yがフィールド外に出るとき
+                    newX < 0 || newX >= FIELD_COL || // xがフィールド外に出るとき
+                    field[newY][newX]) return false; // 移動地点にブロックがあるとき
             }
         }
     }
     return true;
 }
 
-// テトロミノの移動するイベント関数です。
+
+//テトロミノを回転させる関数です。
+function rotate()
+{
+    let newTetro = [];
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {   
+        newTetro[y] = [];
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            newTetro[y][x] = tetro[TETRO_SIZE - x -1][y];
+        }
+    }
+    return newTetro;
+
+}
+
+// テトロミノを移動するイベント関数です。
 document.onkeydown = function(e)
 {
     switch(e.key)
     {
         case "ArrowLeft": // ←
-            if(canMove(-1, 0)) tetro_x--;
+            if(canMove(-1, 0)) tetroX--;
             break;
         case "ArrowUp": // ↑
-            if(canMove(0, -1)) tetro_y--;
+            if(canMove(0, -1)) tetroY--;
             break;
         case "ArrowRight": // →
-            if(canMove(1, 0)) tetro_x++;
+            if(canMove(1, 0)) tetroX++;
             break;
         case "ArrowDown": // ↓
-            if(canMove(0, 1)) tetro_y++;
+            if(canMove(0, 1)) tetroY++;
             break;
-        case "Space": // スペースキー(回転)
-            //回転する処理が入ります。
+        case " ": // スペースキー
+            let newTetro = rotate();
+            if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
     }
-    draw_field();
-    draw_tetro();
+    drawField();
+    drawTetro();
 }
