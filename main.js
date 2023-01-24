@@ -85,9 +85,18 @@ const TETRO_TYPES = [
 ];
 
 
+const START_X = FIELD_COL / 2 - TETRO_SIZE / 2;
+const START_Y = 0;
+
 // テトロミノの初期座標
-let tetroX = 0;
-let tetroY = 0;
+let tetroX = START_X;
+let tetroY = START_Y;
+
+// テトロミノの形
+let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+
+// 描画対象のテトロミノ
+let tetro = TETRO_TYPES[tetroType];
 
 //フィールド本体を一次元配列とする
 let field = [];
@@ -125,8 +134,6 @@ function drawField()
     }
 }
 
-// 描画対象のテトロミノ
-let tetro = TETRO_TYPES[3];
 
 initialize();
 drawField();
@@ -143,8 +150,10 @@ function dropTetro()
     else
     {
         fixTetro();
-        tetroX = 0;
-        tetroY = 0;
+        tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+        tetro = TETRO_TYPES[tetroType];
+        tetroX = START_X;
+        tetroY = START_Y;
     }
     drawField();
     drawTetro();
@@ -196,7 +205,7 @@ function drawTetro()
 
 // ブロックの当たり判定
 function canMove(movementX, movementY, newTetro = tetro)
-{   
+{
     for(let y = 0; y < TETRO_SIZE; y++)
     {
         for(let x = 0; x < TETRO_SIZE; x++)
@@ -220,7 +229,7 @@ function rotate()
 {
     let newTetro = [];
     for(let y = 0; y < TETRO_SIZE; y++)
-    {   
+    {
         newTetro[y] = [];
         for(let x = 0; x < TETRO_SIZE; x++)
         {
