@@ -22,9 +22,20 @@ canvas.style.border = "4px solid #555";
 //テトロミノが落ちるスピード
 const DROP_SPEED = 600;
 
-const TETRO_TYPES = [
+// テトロミノの色
+const TETRO_COLORS = [
+	"#000",			//0空
+	"#6CF",			//1水色
+	"#F92",			//2オレンジ
+	"#66F",			//3青
+	"#C5C",			//4紫
+	"#FD2",			//5黄色
+	"#F44",			//6赤
+	"#5B5"			//7緑
+];
 
-//0.空
+const TETRO_TYPES = [
+// 0.空
     [],
 
 // 1.I
@@ -93,7 +104,7 @@ let tetroX = START_X;
 let tetroY = START_Y;
 
 // テトロミノの形
-let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1));
 
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[tetroType];
@@ -128,7 +139,7 @@ function drawField()
         {
             if(field[y][x])
             {
-                drawBlock(x, y);
+                drawBlock(x, y, field[y][x]);
             }
         }
     }
@@ -169,7 +180,7 @@ function fixTetro()
         {
             if(tetro[y][x])
             {
-                field[tetroY + y][tetroX + x] = 1;
+                field[tetroY + y][tetroX + x] = tetroType;
             }
         }
     }
@@ -178,11 +189,11 @@ function fixTetro()
 
 
 //ブロック一つを描画する関数です
-function drawBlock(x, y)
+function drawBlock(x, y, color)
 {
     let px = x * BLOCK_SIZE;
     let py = y * BLOCK_SIZE;
-    context.fillStyle = "red";
+    context.fillStyle = TETRO_COLORS[color];
     context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
     context.strokeStyle = "black";
     context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
@@ -197,7 +208,7 @@ function drawTetro()
         {
             if(tetro[y][x])
             {
-                drawBlock(tetroX + x, tetroY + y)
+                drawBlock(tetroX + x, tetroY + y, tetroType)
             }
         }
     }
