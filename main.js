@@ -12,14 +12,15 @@ const TETRO_SIZE = 4;
 const FIELD_COL = 10;
 const FIELD_ROW = 20;
 
-
-
 //キャンバスサイズ
 const SCREEN_WIDTH = BLOCK_SIZE * FIELD_COL; // 300px
 const SCREEN_HEIGHT = BLOCK_SIZE * FIELD_ROW; // 600px
 canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
 canvas.style.border = "4px solid #555";
+
+//テトロミノが落ちるスピード
+const DROP_SPEED = 600;
 
 const TETRO_TYPES = [
 
@@ -131,6 +132,41 @@ initialize();
 drawField();
 drawTetro();
 
+//一定間隔でdropTetroを呼び出します
+setInterval(dropTetro, DROP_SPEED);
+
+
+//テトロミノを落下させる関数です
+function dropTetro()
+{
+    if(canMove(0, 1)) tetroY++;
+    else
+    {
+        fixTetro();
+        tetroX = 0;
+        tetroY = 0;
+    }
+    drawField();
+    drawTetro();
+}
+
+
+//テトロミノを落下させた後固定する関数です
+function fixTetro()
+{
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            if(tetro[y][x])
+            {
+                field[tetroY + y][tetroX + x] = 1;
+            }
+        }
+    }
+
+}
+
 
 //ブロック一つを描画する関数です
 function drawBlock(x, y)
@@ -203,16 +239,13 @@ document.onkeydown = function(e)
         case "ArrowLeft": // ←
             if(canMove(-1, 0)) tetroX--;
             break;
-        case "ArrowUp": // ↑
-            if(canMove(0, -1)) tetroY--;
-            break;
         case "ArrowRight": // →
             if(canMove(1, 0)) tetroX++;
             break;
         case "ArrowDown": // ↓
             if(canMove(0, 1)) tetroY++;
             break;
-        case " ": // スペースキー
+        case "ArrowUp": // スペースキー
             let newTetro = rotate();
             if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
