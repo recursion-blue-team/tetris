@@ -161,6 +161,8 @@ function dropTetro()
     else
     {
         fixTetro();
+        deleteLine();
+
         tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
         tetro = TETRO_TYPES[tetroType];
         tetroX = START_X;
@@ -185,6 +187,32 @@ function fixTetro()
         }
     }
 
+}
+
+//一行そろった時にブロックを消す関数です。
+function deleteLine()
+{
+    for(let y = 0; y < FIELD_ROW; y++)
+    {
+        let flag = true;
+        for(let x = 0; x < FIELD_COL; x++)
+        {
+            if(!field[y][x])
+            {
+                flag = false;
+                break;
+            }
+        }
+        if(flag)
+            
+            for(let newY = y; newY > 0; newY--)
+            {
+                for(let newX = 0; newX < FIELD_ROW; newX++)
+                {
+                    field[newY][newX] = field[newY-1][newX];
+                }
+            }
+    }
 }
 
 
