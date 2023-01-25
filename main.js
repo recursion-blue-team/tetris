@@ -112,6 +112,9 @@ let tetro = TETRO_TYPES[tetroType];
 //フィールド本体を一次元配列とする
 let field = [];
 
+// ゲームオーバーを判定するフラグ
+let gameOver = false;
+
 //二次元配列にしてフィールドを初期化する関数です
 function initialize()
 {
@@ -123,32 +126,11 @@ function initialize()
             field[y][x] = 0;
         }
     }
-
-    //テストで表示しているブロック
-    field[19][9] = 1;
-}
-
-//フィールドを表示する関数です
-function drawField()
-{
-    context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    for(let y = 0; y < FIELD_ROW; y++)
-    {
-        for(let x = 0; x < FIELD_COL; x++)
-        {
-            if(field[y][x])
-            {
-                drawBlock(x, y, field[y][x]);
-            }
-        }
-    }
 }
 
 
 initialize();
-drawField();
-drawTetro();
+drawAll();
 
 //一定間隔でdropTetroを呼び出します
 setInterval(dropTetro, DROP_SPEED);
@@ -157,6 +139,8 @@ setInterval(dropTetro, DROP_SPEED);
 //テトロミノを落下させる関数です
 function dropTetro()
 {
+    if(gameOver) return;
+
     if(canMove(0, 1)) tetroY++;
     else
     {
@@ -167,9 +151,13 @@ function dropTetro()
         tetro = TETRO_TYPES[tetroType];
         tetroX = START_X;
         tetroY = START_Y;
+
+        if(!canMove(0, 0))
+        {
+            gameOver = true;
+        }
     }
-    drawField();
-    drawTetro();
+    drawAll();
 }
 
 
@@ -204,7 +192,7 @@ function deleteLine()
             }
         }
         if(flag)
-            
+
             for(let newY = y; newY > 0; newY--)
             {
                 for(let newX = 0; newX < FIELD_ROW; newX++)
@@ -227,6 +215,23 @@ function drawBlock(x, y, color)
     context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
 }
 
+//フィールドを表示する関数です
+function drawField()
+{
+    context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    for(let y = 0; y < FIELD_ROW; y++)
+    {
+        for(let x = 0; x < FIELD_COL; x++)
+        {
+            if(field[y][x])
+            {
+                drawBlock(x, y, field[y][x]);
+            }
+        }
+    }
+}
+
 //テトロミノを描画する関数です
 function drawTetro()
 {
@@ -239,6 +244,22 @@ function drawTetro()
                 drawBlock(tetroX + x, tetroY + y, tetroType)
             }
         }
+    }
+}
+
+function drawAll(){
+    drawField();
+    drawTetro();
+
+    if(gameOver)
+    {
+        let msg = "GAME OVER";
+        context.font = "40px 'MS ゴシック'";
+        let msgWidth = context.measureText(msg).width;
+        let x = SCREEN_WIDTH / 2 - msgWidth / 2;
+        let y = SCREEN_HEIGHT / 2 - 20;
+        context.lineWidth = 4;
+        context.strokeText(msg, x, y);
     }
 }
 
@@ -282,6 +303,7 @@ function rotate()
 // テトロミノを移動するイベント関数です。
 document.onkeydown = function(e)
 {
+    if(gameOver) return;
     switch(e.key)
     {
         case "ArrowLeft": // ←
@@ -298,6 +320,5 @@ document.onkeydown = function(e)
             if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
     }
-    drawField();
-    drawTetro();
+    drawAll();
 }
