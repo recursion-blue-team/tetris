@@ -398,9 +398,6 @@ function holdTetro()
         holdingTetro = tetro;
         tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
         tetro = TETRO_TYPES[tetroType];
-        tetroX = START_X;
-        tetroY = START_Y;
-        console.log(holdingTetroType);
     }
 }
 
@@ -418,8 +415,7 @@ document.getElementById("arrow-up-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowUp"}));
 })
 document.getElementById("space-btn").addEventListener("click", function(){
-    console.log("aaa")
-    document.dispatchEvent(new KeyboardEvent( "keydown", {key: "Space"}));
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: " "}));
 })
 
 // テトロミノを移動するイベント関数です。
@@ -441,7 +437,7 @@ document.onkeydown = function(e)
             let newTetro = rotate();
             if( (isDropping) && (canMove(0, 0, newTetro)) ) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
-        case "Space": //スペース
+        case " ": //スペース
             holdTetro();
             break;
     }
