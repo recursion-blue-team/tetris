@@ -110,7 +110,7 @@ let tetroX = START_X;
 let tetroY = START_Y;
 
 // テトロミノの形
-let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1));
+let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
 
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[tetroType];
@@ -311,6 +311,20 @@ function rotate()
     return newTetro;
 }
 
+// ボタンによる入力
+document.getElementById("arrow-left-btn").addEventListener("click", function(){
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowLeft"}));
+})
+document.getElementById("arrow-right-btn").addEventListener("click", function(){
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowRight"}));
+})
+document.getElementById("arrow-down-btn").addEventListener("click", function(){
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowDown"}));
+})
+document.getElementById("arrow-up-btn").addEventListener("click", function(){
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowUp"}));
+})
+
 // テトロミノを移動するイベント関数です。
 document.onkeydown = function(e)
 {
@@ -324,7 +338,7 @@ document.onkeydown = function(e)
             if(canMove(1, 0)) tetroX++;
             break;
         case "ArrowDown": // ↓
-            if(canMove(0, 1)) tetroY++;
+            while(canMove(0, 1)) tetroY++;
             break;
         case "ArrowUp": // スペースキー
             let newTetro = rotate();
