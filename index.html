@@ -10,12 +10,28 @@
     <title>Tetris</title>
 </head>
 <body>
-    <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
-    <canvas id="canvas"></canvas>
-    <button id="arrow-left-btn" class="btn btn-light">←</button>
-    <button id="arrow-right-btn" class="btn btn-light">→</button>
-    <button id="arrow-down-btn" class="btn btn-light">↓</button>
-    <button id="arrow-up-btn" class="btn btn-light">↑</button>
-    <script type="text/javascript" src="main.js"></script>
+    <div id="initial-page">
+        <div class="vh-100 bg-100 d-flex justify-content-center align-items-center">
+            <div class="justify-content-center text-center align-items-">
+                <h1>TETRIS</h1>
+                <div>
+                    <button type="button" class="btn-primary btn-lg">start</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="main-page" class="d-none">
+        <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
+        <canvas id="canvas"></canvas>
+        <button id="arrow-left-btn" class="btn btn-light">←</button>
+        <button id="arrow-right-btn" class="btn btn-light">→</button>
+        <button id="arrow-down-btn" class="btn btn-light">↓</button>
+        <button id="arrow-up-btn" class="btn btn-light">↑</button>
+        <script type="text/javascript" src="main.js"></script>
+    </div>
 </body>
 </html>
