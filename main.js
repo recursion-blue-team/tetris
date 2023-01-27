@@ -22,6 +22,12 @@ canvas.style.border = "4px solid #555";
 //テトロミノが落ちるスピード
 const DROP_SPEED = 600;
 
+//効果音
+const ROTATE_SOUND = new Audio("sounds/rotateSound.mp3");
+const STACK_SOUND = new Audio("sounds/stackSound.mp3");
+const DELETE_SOUND = new Audio("sounds/deleteSound.mp3");
+
+
 // テトロミノの色
 const TETRO_COLORS = [
 	"#000",			//0空
@@ -171,6 +177,8 @@ function fixTetro()
             if(tetro[y][x])
             {
                 field[tetroY + y][tetroX + x] = tetroType;
+                STACK_SOUND.currentTime = 0;
+                STACK_SOUND.play();
             }
         }
     }
@@ -198,6 +206,8 @@ function deleteLine()
                 for(let newX = 0; newX < FIELD_ROW; newX++)
                 {
                     field[newY][newX] = field[newY-1][newX];
+                    DELETE_SOUND.currentTime = 0;
+                    DELETE_SOUND.play();
                 }
             }
     }
@@ -296,8 +306,9 @@ function rotate()
             newTetro[y][x] = tetro[TETRO_SIZE - x -1][y];
         }
     }
+    ROTATE_SOUND.currentTime = 0;
+    ROTATE_SOUND.play();
     return newTetro;
-
 }
 
 // テトロミノを移動するイベント関数です。
