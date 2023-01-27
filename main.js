@@ -30,14 +30,14 @@ const DELETE_SOUND = new Audio("sounds/deleteSound.mp3");
 
 // テトロミノの色
 const TETRO_COLORS = [
-	"#000",			//0空
-	"#6CF",			//1水色
-	"#F92",			//2オレンジ
-	"#66F",			//3青
-	"#C5C",			//4紫
-	"#FD2",			//5黄色
-	"#F44",			//6赤
-	"#5B5"			//7緑
+    [0, 0, 0],          //0空
+    [102, 204, 255],    //1水色
+    [255, 153, 34],     //2オレンジ
+    [102, 102, 255],    //3青
+    [204, 85, 204],     //4紫
+    [255, 221, 34],     //5黄色
+    [255, 68, 68],      //6赤
+    [85, 187, 85]       //7緑
 ];
 
 const TETRO_TYPES = [
@@ -215,13 +215,15 @@ function deleteLine()
 
 
 //ブロック一つを描画する関数です
-function drawBlock(x, y, color)
+function drawBlock(x, y, color, alpha = 1)
 {
     let px = x * BLOCK_SIZE;
     let py = y * BLOCK_SIZE;
-    context.fillStyle = TETRO_COLORS[color];
+    let r, g, b;
+    [r, g, b] = TETRO_COLORS[color];
+    context.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
     context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
-    context.strokeStyle = "black";
+    context.strokeStyle = `rgba(0, 0, 0, ${alpha})`;    //黒色
     context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
 }
 
@@ -257,9 +259,31 @@ function drawTetro()
     }
 }
 
+function drawPredictedLandingPoint()
+{
+    let dummyTetro = tetro;
+    let dummyMovementX = 0;
+    let dummyMovementY = 0;
+    while(canMove(dummyMovementX, dummyMovementY + 1, dummyTetro)){
+        dummyMovementY++;
+    }
+
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            if(tetro[y][x])
+            {
+                drawBlock(tetroX + dummyMovementX + x, tetroY + dummyMovementY + y, tetroType, 0.4)
+            }
+        }
+    }
+}
+
 function drawAll(){
     drawField();
     drawTetro();
+    drawPredictedLandingPoint();
 
     if(gameOver)
     {
