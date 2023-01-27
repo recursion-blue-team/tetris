@@ -3,6 +3,21 @@ const config = {
     mainPage : document.getElementById("main-page"),
 }
 
+function gameStart() {
+    initialize();
+    drawAll();
+
+    //一定間隔でdropTetroを呼び出します
+    setInterval(dropTetro, DROP_SPEED);
+}
+
+function startTetris(){
+    displayNone(config.initialPage);
+    displayBlock(config.mainPage);
+    gameStart();
+}
+
+
 function displayBlock (ele) {
     ele.classList.remove("d-none");
     ele.classList.add("d-block");
@@ -358,12 +373,3 @@ document.onkeydown = function(e)
 }
 
 
-function gameStart() {
-    initialize();
-    drawAll();
-
-    //一定間隔でdropTetroを呼び出します
-    setInterval(dropTetro, DROP_SPEED);
-}
-
-gameStart();
