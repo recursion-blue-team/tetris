@@ -148,7 +148,7 @@ function dropTetro()
     if(gameOver) return;
 
     if(canMove(0, 1)) tetroY++;
-    else
+    if(!canMove(0, 1))
     {
         fixTetro();
         deleteLine();
