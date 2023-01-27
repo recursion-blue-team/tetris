@@ -313,7 +313,7 @@ document.onkeydown = function(e)
             if(canMove(1, 0)) tetroX++;
             break;
         case "ArrowDown": // ↓
-            if(canMove(0, 1)) tetroY++;
+            while(canMove(0, 1)) tetroY++;
             break;
         case "ArrowUp": // スペースキー
             let newTetro = rotate();
