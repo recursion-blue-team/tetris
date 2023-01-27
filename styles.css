@@ -17,9 +17,9 @@ body {
 
 .action__stop {
   position: absolute;
-	background: rgba(0, 22, 22, .3);
+	background: transparent;
 	border-radius: 5px;
-	box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+	/* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
 	cursor: pointer;
 	left: 80px;
 	top:0;
@@ -27,7 +27,7 @@ body {
 	width: 2.5rem;
 }
 
-.action__stop::before{
+/* .action__stop::before{
   content: "";
   display: block;
   position: absolute;
@@ -48,5 +48,5 @@ body {
   height: 1.4rem;
   width: 0.4rem;
   background: #eee;
-}
+} */
 
