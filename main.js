@@ -4,20 +4,24 @@ const context = canvas.getContext("2d");
 
 
 //ブロック１単位のピクセルサイズ
-const BLOCK_SIZE = 30;
+const BLOCK_SIZE = 25;
+
+const NEXT_BLOCK_SIZE = (BLOCK_SIZE / 2);
 //テトロミノのサイズ
 const TETRO_SIZE = 4;
 
 //フィールドサイズ(縦、横)
 const FIELD_COL = 10;
-const FIELD_ROW = 20;
+const FIELD_ROW = 22;
 
 //キャンバスサイズ
 const SCREEN_WIDTH = BLOCK_SIZE * FIELD_COL; // 300px
-const SCREEN_HEIGHT = BLOCK_SIZE * FIELD_ROW; // 600px
+const SCREEN_HEIGHT = BLOCK_SIZE * FIELD_ROW; // 550px
 canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
 canvas.style.border = "4px solid #555";
+
+
 
 //テトロミノが落ちるスピード
 const DROP_SPEED = 600;
@@ -111,9 +115,16 @@ let tetroY = START_Y;
 
 // テトロミノの形
 let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
-
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[tetroType];
+
+// ネクストテトロの描画座標
+const NEXT_X = 0.5;
+const NEXT_Y = 0.5;
+
+// 次に出現するテトロを用意
+let nextTetroType = Math.floor( Math.random()*(TETRO_TYPES.length -1)) +1;
+let nextTetro = TETRO_TYPES[nextTetroType];
 
 //フィールド本体を一次元配列とする
 let field = [];
@@ -132,11 +143,25 @@ function initialize()
             field[y][x] = 0;
         }
     }
+    
 }
 
 
 initialize();
 drawAll();
+
+
+
+function setTetro()
+{
+    tetroType = nextTetroType;
+    tetro = TETRO_TYPES[tetroType];
+    nextTetroType = Math.floor(Math.random()* (TETRO_TYPES.length -1)) +1;
+    nextTetro = TETRO_TYPES[nextTetroType];
+
+    tetroX = START_X;
+    tetroY = START_Y;
+}
 
 
 let isDropping;
@@ -193,11 +218,7 @@ function dropTetro()
     {
         fixTetro();
         deleteLine();
-
-        tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
-        tetro = TETRO_TYPES[tetroType];
-        tetroX = START_X;
-        tetroY = START_Y;
+        setTetro();
 
         if(!canMove(0, 0))
         {
@@ -262,7 +283,7 @@ function drawBlock(x, y, color)
     let py = y * BLOCK_SIZE;
     context.fillStyle = TETRO_COLORS[color];
     context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
-    context.strokeStyle = "black";
+    context.strokeStyle = "rgba(0,0,0, .1)";
     context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
 }
 
@@ -298,9 +319,43 @@ function drawTetro()
     }
 }
 
+
+/* 
+    　　　　　　ネクストテトロブロック　　　　　　　　　　
+ */
+// ネクストテトロブロックを1つを描画する
+function drawNextBlock(x, y, color)
+{
+    let px = x * NEXT_BLOCK_SIZE;
+    let py = y * NEXT_BLOCK_SIZE;
+    context.fillStyle = TETRO_COLORS[color];
+    context.fillRect(px, py, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
+    context.strokeStyle = "rgba(0,0,0, .1)";
+    context.strokeRect(px, py, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
+}
+
+function drawNextTetro()
+{
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            if(nextTetro[y][x])
+            {
+                drawNextBlock(NEXT_X + x, NEXT_Y +y, nextTetroType)
+            }
+        }
+    }
+}
+
+/* 
+    　　　　　　ネクストテトロブロック　　　　　　　　　　
+ */
+
 function drawAll(){
     drawField();
     drawTetro();
+    drawNextTetro();
 
     if(gameOver)
     {

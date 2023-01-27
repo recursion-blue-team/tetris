@@ -3,6 +3,20 @@ body {
 	padding: 0;
 	box-sizing: border-box;
 }
+canvas{
+  position: static;
+}
+
+.gameline{
+  position: absolute;
+	background: red;
+	border-radius: 5px;
+	/* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
+	left: 100px;
+	top: 100px;
+	height: 0.5rem;
+	width: 245px;
+}
 
 #controller{
   display: inline-block;
@@ -13,6 +27,7 @@ body {
 	position: relative;
   display: block;
 }
+
 
 
 .action__stop {
@@ -27,26 +42,18 @@ body {
 	width: 2.5rem;
 }
 
-/* .action__stop::before{
-  content: "";
-  display: block;
-  position: absolute;
-  transform: translate(-150%, -50% );
-	top: 50%;
-	left: 50%;
-  height: 1.4rem;
-  width: 0.4rem;
-  background: #eee;
-}
-.action__stop::after {
-  content: "";
-  display: block;
-  position: absolute;
-  transform: translate(50%, -50% );
-	top: 50%;
-	left: 50%;
-  height: 1.4rem;
-  width: 0.4rem;
-  background: #eee;
-} */
 
+#next{
+    position: relative;
+    display: block;
+}
+.next-border{
+  position: absolute;
+	background: rgba(0, 0, 0, .5);
+	border-radius: 5px;
+	box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+	left: 5px;
+	top: -510px;
+	height: 0.5rem;
+	width: 245px;
+}

@@ -11,9 +11,16 @@
 </head>
 <body>
     <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas"><div class="gameline"></div></canvas>
+
+    <!-- フィールド内にボーダーを引くためのdivタグです -->
+    <!-- * フィールドの下に固定したいので動かさないようにお願いします * -->
+    <div id="next">
+        <div class="next-border"></div>
+    </div>
     <!-- ボタン -->
     <div id="action">
+        
         <!-- <div id="action-reset" class="action__reset"></div> -->
         <div id="action-stop" class="action__stop">
             <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
