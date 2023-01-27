@@ -138,8 +138,49 @@ function initialize()
 initialize();
 drawAll();
 
+
+let isDropping;
+// 一時停止ボタン
+const buttonStop = document.getElementById("action-stop");
+buttonStop.addEventListener("click", ()=>{
+    if(isDropping){
+        dropStop();
+        buttonStop.innerHTML = 
+        `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+        </svg>
+        `;
+    }else{
+        dropStart();
+        buttonStop.innerHTML = 
+        `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z" />
+        </svg>
+        `;
+    }
+});
+
+
+
 //一定間隔でdropTetroを呼び出します
-setInterval(dropTetro, DROP_SPEED);
+function dropStart()
+{   
+    startDrop = setInterval(dropTetro, DROP_SPEED);
+    isDropping = true;
+}
+dropStart();
+
+
+// 一時停止処理
+function dropStop()
+{
+    clearInterval(startDrop);
+    isDropping = false;
+}
 
 
 //テトロミノを落下させる関数です
@@ -332,17 +373,17 @@ document.onkeydown = function(e)
     switch(e.key)
     {
         case "ArrowLeft": // ←
-            if(canMove(-1, 0)) tetroX--;
+            if( (isDropping) && (canMove(-1, 0)) ) tetroX--;
             break;
         case "ArrowRight": // →
-            if(canMove(1, 0)) tetroX++;
+            if( (isDropping) && (canMove(1, 0)) ) tetroX++;
             break;
         case "ArrowDown": // ↓
-            while(canMove(0, 1)) tetroY++;
+            while( (isDropping) && (canMove(0, 1)) ) tetroY++;
             break;
         case "ArrowUp": // スペースキー
             let newTetro = rotate();
-            if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
+            if( (isDropping) && (canMove(0, 0, newTetro)) ) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
     }
     drawAll();
