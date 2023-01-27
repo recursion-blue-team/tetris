@@ -115,6 +115,12 @@ let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[tetroType];
 
+// ホールドしたテトロミノの形
+let holdingTetroType = 0;
+
+// ホールドしたテトロミノ
+let holdingTetro = undefined;
+
 //フィールド本体を一次元配列とする
 let field = [];
 
@@ -145,7 +151,7 @@ const buttonStop = document.getElementById("action-stop");
 buttonStop.addEventListener("click", ()=>{
     if(isDropping){
         dropStop();
-        buttonStop.innerHTML = 
+        buttonStop.innerHTML =
         `
         <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -154,7 +160,7 @@ buttonStop.addEventListener("click", ()=>{
         `;
     }else{
         dropStart();
-        buttonStop.innerHTML = 
+        buttonStop.innerHTML =
         `
         <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -168,7 +174,7 @@ buttonStop.addEventListener("click", ()=>{
 
 //一定間隔でdropTetroを呼び出します
 function dropStart()
-{   
+{
     startDrop = setInterval(dropTetro, DROP_SPEED);
     isDropping = true;
 }
@@ -376,6 +382,28 @@ function rotate()
     return newTetro;
 }
 
+// ホールド機能
+function holdTetro()
+{
+    if(holdingTetro !== undefined)
+    {
+        // フィールド中のテトロミノとホールドしたテトロミノの入れ替え
+        [tetroType, holdingTetroType] = [holdingTetroType, tetroType];
+        [tetro, holdingTetro] = [holdingTetro, tetro];
+    }
+    else
+    {
+        // ホールドしているテトロミノがないとき（初回のホールド）は新たにテトロミノを作成する
+        holdingTetroType = tetroType;
+        holdingTetro = tetro;
+        tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+        tetro = TETRO_TYPES[tetroType];
+        tetroX = START_X;
+        tetroY = START_Y;
+        console.log(holdingTetroType);
+    }
+}
+
 // ボタンによる入力
 document.getElementById("arrow-left-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowLeft"}));
@@ -388,6 +416,10 @@ document.getElementById("arrow-down-btn").addEventListener("click", function(){
 })
 document.getElementById("arrow-up-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowUp"}));
+})
+document.getElementById("space-btn").addEventListener("click", function(){
+    console.log("aaa")
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: "Space"}));
 })
 
 // テトロミノを移動するイベント関数です。
@@ -405,9 +437,12 @@ document.onkeydown = function(e)
         case "ArrowDown": // ↓
             while( (isDropping) && (canMove(0, 1)) ) tetroY++;
             break;
-        case "ArrowUp": // スペースキー
+        case "ArrowUp": // ↑
             let newTetro = rotate();
             if( (isDropping) && (canMove(0, 0, newTetro)) ) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
+            break;
+        case "Space": //スペース
+            holdTetro();
             break;
     }
     drawAll();
