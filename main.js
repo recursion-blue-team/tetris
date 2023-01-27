@@ -138,8 +138,35 @@ function initialize()
 initialize();
 drawAll();
 
+
+let isDropping;
+// 一時停止ボタン
+const buttonStop = document.getElementById("action-stop");
+buttonStop.addEventListener("click", ()=>{
+    if(isDropping){
+        dropStop();
+    }else{
+        dropStart();
+    }
+});
+
+
+
 //一定間隔でdropTetroを呼び出します
-setInterval(dropTetro, DROP_SPEED);
+function dropStart()
+{   
+    startDrop = setInterval(dropTetro, DROP_SPEED);
+    isDropping = true;
+}
+dropStart();
+
+
+// 一時停止処理
+function dropStop()
+{
+    clearInterval(startDrop);
+    isDropping = false;
+}
 
 
 //テトロミノを落下させる関数です
@@ -332,17 +359,17 @@ document.onkeydown = function(e)
     switch(e.key)
     {
         case "ArrowLeft": // ←
-            if(canMove(-1, 0)) tetroX--;
+            if( (isDropping) && (canMove(-1, 0)) ) tetroX--;
             break;
         case "ArrowRight": // →
-            if(canMove(1, 0)) tetroX++;
+            if( (isDropping) && (canMove(1, 0)) ) tetroX++;
             break;
         case "ArrowDown": // ↓
-            while(canMove(0, 1)) tetroY++;
+            while( (isDropping) && (canMove(0, 1)) ) tetroY++;
             break;
         case "ArrowUp": // スペースキー
             let newTetro = rotate();
-            if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
+            if( (isDropping) && (canMove(0, 0, newTetro)) ) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
     }
     drawAll();

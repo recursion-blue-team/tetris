@@ -1,1 +1,52 @@
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#controller{
+  display: inline-block;
+  margin-top: 50px;
+}
+
+#action {
+	position: relative;
+  display: block;
+}
+
+
+.action__stop {
+  position: absolute;
+	background: rgba(0, 22, 22, .3);
+	border-radius: 5px;
+	box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+	cursor: pointer;
+	left: 80px;
+	top:0;
+	height: 2.5rem;
+	width: 2.5rem;
+}
+
+.action__stop::before{
+  content: "";
+  display: block;
+  position: absolute;
+  transform: translate(-150%, -50% );
+	top: 50%;
+	left: 50%;
+  height: 1.4rem;
+  width: 0.4rem;
+  background: #eee;
+}
+.action__stop::after {
+  content: "";
+  display: block;
+  position: absolute;
+  transform: translate(50%, -50% );
+	top: 50%;
+	left: 50%;
+  height: 1.4rem;
+  width: 0.4rem;
+  background: #eee;
+}
 
