@@ -6,11 +6,40 @@ const config =
 
 let interval = undefined;
 
+//テトロミノが落ちるスピード
+let dropSpeed;
+
+// ミッションクリア数
+let deleteMissions;
+
 function gameStart()
 {
     gameOver = false;
     gameClear = false;
     initializeField();
+
+    // 難易度によって落下速度変化
+    let difficulty = document.querySelector('#difficulty');
+    if(difficulty.value === 'easy'){
+        dropSpeed = 900;
+    }else if(difficulty.value === 'normal'){
+        dropSpeed = 600;
+    }else if(difficulty.value === 'hard'){
+        dropSpeed = 300;
+    } 
+
+    // ゲームミッション数を表示
+    if(dropSpeed === 900){
+        deleteMissions = 5;
+    }else if(dropSpeed === 600){
+        deleteMissions = 7;
+    }else if(dropSpeed === 300){
+        deleteMissions = 10;
+    };
+
+    let displayDeleteMissionsEle = document.getElementById('display-lines-left');
+    displayDeleteMissionsEle.innerText = `${deleteMissions}`
+        
     // テトロの座標
     tetroX = START_X;
     tetroY = START_Y;
@@ -27,7 +56,7 @@ function gameStart()
     drawAll();
     startTimer();
     clearInterval(interval);
-    interval = setInterval(dropTetro, DROP_SPEED);
+    interval = setInterval(dropTetro, dropSpeed);
 }
 
 function startTetris()
@@ -74,21 +103,10 @@ canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
 canvas.style.border = "1px solid #fff";
 
-//テトロミノが落ちるスピード
-const DROP_SPEED = 600;
 
-// ゲームミッション
-let deleteMissions;
-if(DROP_SPEED == 300){
-    deleteMissions = 5;
-}else if(DROP_SPEED == 600){
-    deleteMissions = 7;
-}else if(DROP_SPEED == 900){
-    deleteMissions = 10;
-};
 
-let displayDeleteMissionsEle = document.getElementById('display-lines-left');
-displayDeleteMissionsEle.innerText = `${deleteMissions}`
+
+
 
 
 //効果音
@@ -236,15 +254,8 @@ function setTetro()
     tetroY = START_Y;
 }
 
-// // ゲームリスタートボタン
-// let btnRestart = document.querySelector(".action__reset");
-// btnRestart.addEventListener('click', ()=>{
-//    console.log(btnRestart);
-//    console.log('こんちゃ');
-// })
-
 const timer = document.getElementById('timer');
-const TIME = 10;
+const TIME = 180;
 let startTime;
 function startTimer(){
     // タイマーをスタートする処理
