@@ -1,29 +1,34 @@
-const config = {
+const config = 
+{
     initialPage : document.getElementById("initial-page"),
     mainPage : document.getElementById("main-page"),
 }
 
-function gameStart() {
+function gameStart() 
+{
     initialize();
     drawAll();
 
     //一定間隔でdropTetroを呼び出します
-    setInterval(dropTetro, DROP_SPEED);
+    dropStart()
 }
 
-function startTetris(){
+function startTetris()
+{
     displayNone(config.initialPage);
     displayBlock(config.mainPage);
     gameStart();
 }
 
 
-function displayBlock (ele) {
+function displayBlock (ele)
+{
     ele.classList.remove("d-none");
     ele.classList.add("d-block");
 }
 
-function displayNone (ele) {
+function displayNone (ele)
+{
     ele.classList.remove("d-block");
     ele.classList.add("d-none");
 }
@@ -179,9 +184,6 @@ function initialize()
 
 
 
-
-
-
 function setTetro()
 {
     tetroType = nextTetroType;
@@ -227,7 +229,6 @@ function dropStart()
     startDrop = setInterval(dropTetro, DROP_SPEED);
     isDropping = true;
 }
-dropStart();
 
 
 // 一時停止処理
