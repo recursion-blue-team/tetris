@@ -19,7 +19,7 @@
                 <h1 class="title">TETRIS</h1>
                 <div>
                     <div class="d-flex flex-wrap justify-content-center m-5">
-                        <button type="button" class="btn1-primary btn-lg col-8" onclick="startTetris()">START</button>
+                            <button type="button" class="btn1-primary btn-lg col-8" onclick="startTetris()">START</button>
                         <div class="mt-5 operation">
                             <div class="btn-group mt-4">
                                 <button type="button" class="btn-lg btn-outline-primary dropdown-toggle col-12" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Difficulty</button>
@@ -55,33 +55,36 @@
 
 <div id="main-page" class="d-none">
     <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
-    <canvas id="canvas"><div class="gameline"></div></canvas>
+    <div class="vh-80 d-flex justify-content-center flex-wrap">
+        <div class="justify-content-center mt-5">
+            <canvas id="canvas"><div class="gameline col-12"></div></canvas>
 
-    <!-- フィールド内にボーダーを引くためのdivタグです -->
-    <!-- * フィールドの下に固定したいので動かさないようにお願いします * -->
-    <div id="next">
-        <div class="next-border"></div>
-    </div>
-    <!-- ボタン -->
-    <div id="action">
-        
-        <!-- <div id="action-reset" class="action__reset"></div> -->
-        <div id="action-stop" class="action__stop">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z" />
-            </svg>
+            <!-- フィールド内にボーダーを引くためのdivタグです -->
+            <!-- * フィールドの下に固定したいので動かさないようにお願いします * -->
+            <div id="next">
+                <div class="next-border"></div>
+            </div>    
         </div>
-    </div>
+        <div class="col-12 d-flex justify-content-center">
+            <!-- ボタン -->
+            <div id="action">
+                <!-- <div id="action-reset" class="action__reset"></div> -->
+                <div id="action-stop" class="action__stop">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z" />
+                    </svg>
+                </div>
+            </div>
 
-    <!-- コントローラー -->
-    <div id="controller">
-
-        <button id="arrow-left-btn" class="btn btn-light">←</button>
-        <button id="arrow-right-btn" class="btn btn-light">→</button>
-        <button id="arrow-down-btn" class="btn btn-light">↓</button>
-        <button id="arrow-up-btn" class="btn btn-light">↑</button>
-
+            <!-- コントローラー -->
+            <div id="controller">
+                <button id="arrow-left-btn" class="btn btn-light position-left">←</button>
+                <button id="arrow-right-btn" class="btn btn-light position-right">→</button>
+                <button id="arrow-down-btn" class="btn btn-light position-center">↓</button>
+                <button id="arrow-up-btn" class="btn btn-light position-top">↑</button>
+            </div>
+        </div>
     </div>
 </div>
 
