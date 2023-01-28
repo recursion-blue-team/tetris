@@ -11,6 +11,7 @@ let dropSpeed;
 
 // ミッションクリア数
 let deleteMissions;
+let displayDeleteMissionsEle
 
 function gameStart()
 {
@@ -26,7 +27,7 @@ function gameStart()
         dropSpeed = 600;
     }else if(difficulty.value === 'hard'){
         dropSpeed = 300;
-    } 
+    }
 
     // ゲームミッション数を表示
     if(dropSpeed === 900){
@@ -37,9 +38,9 @@ function gameStart()
         deleteMissions = 10;
     };
 
-    let displayDeleteMissionsEle = document.getElementById('display-lines-left');
+    displayDeleteMissionsEle = document.getElementById('display-lines-left');
     displayDeleteMissionsEle.innerText = `${deleteMissions}`
-        
+
     // テトロの座標
     tetroX = START_X;
     tetroY = START_Y;
@@ -648,4 +649,3 @@ document.onkeydown = function(e)
     }
     drawAll();
 }
-
