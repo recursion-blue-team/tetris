@@ -1,4 +1,5 @@
 body {
+
     font-weight: bold;
     font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
     background-color: #f0f4ff;
@@ -80,3 +81,63 @@ body {
     transform: translateY(-2px);
 }
     
+
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+canvas{
+  position: static;
+}
+
+.gameline{
+  position: absolute;
+	background: red;
+	border-radius: 5px;
+	/* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
+	left: 100px;
+	top: 100px;
+	height: 0.5rem;
+	width: 245px;
+}
+
+#controller{
+  display: inline-block;
+  margin-top: 50px;
+}
+
+#action {
+	position: relative;
+  display: block;
+}
+
+
+
+.action__stop {
+  position: absolute;
+	background: transparent;
+	border-radius: 5px;
+	/* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
+	cursor: pointer;
+	left: 80px;
+	top:0;
+	height: 2.5rem;
+	width: 2.5rem;
+}
+
+
+#next{
+    position: relative;
+    display: block;
+}
+.next-border{
+  position: absolute;
+	background: rgba(0, 0, 0, .5);
+	border-radius: 5px;
+	box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+	left: 5px;
+	top: -510px;
+	height: 0.5rem;
+	width: 245px;
+}
+
