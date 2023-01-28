@@ -506,6 +506,11 @@ function holdTetro()
     if(holdingTetro !== undefined)
     {
         // フィールド中のテトロミノとホールドしたテトロミノの入れ替え
+        if(!canMove(0, 0, holdingTetro))
+        {
+            if(canMove(-1, 0, holdingTetro)) tetroX--;
+            if(canMove(1, 0, holdingTetro)) tetroY++;
+        }
         [tetroType, holdingTetroType] = [holdingTetroType, tetroType];
         [tetro, holdingTetro] = [holdingTetro, tetro];
     }
