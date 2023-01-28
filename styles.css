@@ -100,25 +100,6 @@ canvas{
     margin-top: 50px;
 }
 
-#action {
-    position: relative;
-    display: block;
-}
-
-
-
-.action__stop {
-    position: absolute;
-    background: transparent;
-    border-radius: 5px;
-    /* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
-    cursor: pointer;
-    left: 80px;
-    top:0;
-    height: 2.5rem;
-    width: 2.5rem;
-}
-
 
 #next{
     position: relative;
@@ -131,7 +112,7 @@ canvas{
     box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
     left: 5px;
     top: -510px;
-    height: 0.5rem;
+    height: 0.3rem;
     width: 245px;
 }
 
@@ -142,20 +123,20 @@ canvas{
     text-align: center;
     width: 55px;
     height: 55px;
-    line-height: 35px;
+    line-height: 53px;
     box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
     border-radius: 10px;
 }
 
 #controller a:hover {
     box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
-
 }
 
 #controller {
     display: grid;
     grid-template-columns: 75px 75px 75px;
     grid-template-rows: 75px 75px 75px;
+    margin-top: 10px;
 }
 
 #controller .position-top {
@@ -181,5 +162,24 @@ canvas{
 #controller .position-bottom {
     grid-row: 3 / 4;
     grid-column: 2/3;
+}
+
+#canvas {
+    border-radius: 5px;
+    background: #d6efff;
+    box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
+}
+
+
+#action-stop span {
+    background-color: #d6efff;
+    margin: auto;
+    font-weight: bold;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    line-height: 43px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    border-radius: 10px;
 }
 
