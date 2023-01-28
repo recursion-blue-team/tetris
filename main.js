@@ -8,6 +8,7 @@ function gameStart()
 {
     initialize();
     drawAll();
+    startTimer();
 
     //一定間隔でdropTetroを呼び出します
     dropStart()
@@ -57,10 +58,22 @@ canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
 canvas.style.border = "4px solid #555";
 
-
-
 //テトロミノが落ちるスピード
 const DROP_SPEED = 600;
+
+// ゲームミッション
+let deleteMissions;
+if(DROP_SPEED == 300){
+    deleteMissions = 5;
+}else if(DROP_SPEED == 600){
+    deleteMissions = 7;
+}else if(DROP_SPEED == 900){
+    deleteMissions = 10;
+};
+
+let displayDeleteMissionsEle = document.getElementById('display-lines-left');
+displayDeleteMissionsEle.innerText = `${deleteMissions}`
+
 
 //効果音
 const ROTATE_SOUND = new Audio("sounds/rotateSound.mp3");
@@ -168,6 +181,9 @@ let field = [];
 // ゲームオーバーを判定するフラグ
 let gameOver = false;
 
+// ゲームクリアを判定するフラグ
+let gameClear = false;
+
 //二次元配列にしてフィールドを初期化する関数です
 function initialize()
 {
@@ -195,6 +211,37 @@ function setTetro()
     tetroY = START_Y;
 }
 
+// // ゲームリスタートボタン
+// let btnRestart = document.querySelector(".action__reset");
+// btnRestart.addEventListener('click', ()=>{
+//    console.log(btnRestart);
+//    console.log('こんちゃ');
+
+// })
+
+const timer = document.getElementById('timer');
+const TIME = 10;
+let startTime;
+function startTimer(){
+    // タイマーをスタートする処理
+    timer.innerText = TIME;
+    startTime = new Date();
+    const countDown = setInterval(()=>
+    {
+        timer.innerText = TIME - getTimerTime();
+        if(timer.innerText <= 0) 
+        {
+            gameOver = true;
+            notifyUsersGameOver();
+            clearInterval(countDown);
+        }
+    },
+        1000);
+}
+
+function getTimerTime(){
+    return Math.floor((new Date() - startTime) /1000);
+}
 
 let isDropping;
 // 一時停止ボタン
@@ -243,6 +290,7 @@ function dropStop()
 function dropTetro()
 {
     if(gameOver) return;
+    if(gameClear) return;
 
     if(canMove(0, 1)) tetroY++;
     if(!canMove(0, 1))
@@ -252,8 +300,10 @@ function dropTetro()
         setTetro();
     }
     gameOver = isGameOver();
+    gameClear = isGameClear();
     drawAll();
     if(gameOver) notifyUsersGameOver();
+    if(gameClear) notifyUsersGameClear();
 }
 
 
@@ -275,6 +325,11 @@ function fixTetro()
 
 }
 
+ function displayDeleteMissions(){
+    // 残りライン数を表示する関数が入ります。
+    displayDeleteMissionsEle.innerHTML = `${deleteMissions >= 0 ? deleteMissions : 0}`;
+ }
+
 //一行そろった時にブロックを消す関数です。
 function deleteLine()
 {
@@ -290,7 +345,9 @@ function deleteLine()
             }
         }
         if(flag)
-
+        {
+            deleteMissions --;
+            displayDeleteMissions();
             for(let newY = y; newY > 0; newY--)
             {
                 for(let newX = 0; newX < FIELD_ROW; newX++)
@@ -300,6 +357,7 @@ function deleteLine()
                     DELETE_SOUND.play();
                 }
             }
+        }
     }
 }
 
@@ -450,6 +508,27 @@ function rotate()
     ROTATE_SOUND.currentTime = 0;
     ROTATE_SOUND.play();
     return newTetro;
+}
+
+// ゲームクリアを判定
+function isGameClear(){
+    if(deleteMissions <= 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function notifyUsersGameClear()
+{
+    let msg = "CLEAR";
+    context.font = "50px 'MS ゴシック'";
+    let msgWidth = context.measureText(msg).width;
+    let x = SCREEN_WIDTH / 2 - msgWidth / 2;
+    let y = SCREEN_HEIGHT / 2 - 20;
+    context.lineWidth = 4;
+    context.strokeText(msg, x, y);
+    context.lineWidth = 1;
 }
 
 // ゲームオーバーを判定

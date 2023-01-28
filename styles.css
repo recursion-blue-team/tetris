@@ -1,5 +1,7 @@
 body {
-
+    margin: 0;
+	padding: 0;
+	box-sizing: border-box;
     font-weight: bold;
     font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
     background-color: #f0f4ff;
@@ -82,14 +84,6 @@ body {
 }
     
 
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-canvas{
-  position: static;
-}
-
 .gameline{
   position: absolute;
 	background: red;
@@ -102,27 +96,34 @@ canvas{
 }
 
 #controller{
-  display: inline-block;
-  margin-top: 50px;
+    display: inline-block;
+    margin-top: 50px;
 }
 
 #action {
 	position: relative;
-  display: block;
+    display: block;
 }
-
-
-
-.action__stop {
-  position: absolute;
+.action__reset {
+    position: absolute;
 	background: transparent;
 	border-radius: 5px;
-	/* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
+	cursor: pointer;
+	left: 10px;
+	top:0;
+	height: 2.5rem;
+	width: 2.5rem;
+}
+.action__stop {
+    position: absolute;
+	background: transparent;
+	border-radius: 5px;
 	cursor: pointer;
 	left: 80px;
 	top:0;
 	height: 2.5rem;
 	width: 2.5rem;
+    opacity: 1;  /*本番用は0にして透明にする*/
 }
 
 
@@ -130,6 +131,9 @@ canvas{
     position: relative;
     display: block;
 }
+/* .next-borderでフィールドにネクスト下部のボーダーを描いています。
+    絶対値で配置しているので親要素(#next)を動かさない限り動きません。
+*/
 .next-border{
   position: absolute;
 	background: rgba(0, 0, 0, .5);
