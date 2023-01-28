@@ -8,6 +8,8 @@ let interval = undefined;
 
 function gameStart()
 {
+    gameOver = false;
+    gameClear = false;
     initializeField();
     // テトロの座標
     tetroX = START_X;
@@ -517,27 +519,6 @@ function rotate()
     return newTetro;
 }
 
-// ゲームクリアを判定
-function isGameClear(){
-    if(deleteMissions <= 0){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function notifyUsersGameClear()
-{
-    let msg = "CLEAR";
-    context.font = "50px 'MS ゴシック'";
-    let msgWidth = context.measureText(msg).width;
-    let x = SCREEN_WIDTH / 2 - msgWidth / 2;
-    let y = SCREEN_HEIGHT / 2 - 20;
-    context.lineWidth = 4;
-    context.strokeText(msg, x, y);
-    context.lineWidth = 1;
-}
-
 // ホールド機能
 function holdTetro()
 {
@@ -562,6 +543,8 @@ function holdTetro()
     }
 }
 
+let message = {title: "", msg: ""};
+
 // ゲームオーバーを判定
 function isGameOver()
 {
@@ -579,13 +562,35 @@ function isGameOver()
 
 function notifyUsersGameOver()
 {
-    let msg = "GAME OVER";
-    context.font = "40px 'MS ゴシック'";
-    context.fillStyle = `rgba(0, 0, 0, 1)`
-    context.textBaseline = "center";
-    context.textAlign = "center";
-    context.fillText(msg, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    message["title"] = "ゲームオーバー";
+    message["msg"] = "時間切れです！再度挑戦してみましょう";
+    document.getElementById("modal-btn").dispatchEvent(new Event("click"));
 }
+
+// ゲームクリアを判定
+function isGameClear(){
+    if(deleteMissions <= 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function notifyUsersGameClear()
+{
+    message["title"] = "ゲームクリア";
+    message["msg"] = "おめでとうございます！クリアタイムの短縮を目指しましょう！";
+    document.getElementById("modal-btn").dispatchEvent(new Event("click"));
+}
+
+let exampleModal = document.getElementById('exampleModal')
+exampleModal.addEventListener('show.bs.modal', function() {
+  let modalTitle = exampleModal.querySelector('.modal-title')
+  let modalBodyInput = exampleModal.querySelector('.modal-body')
+
+  modalTitle.textContent = message["title"];
+  modalBodyInput.innerHTML = message["msg"];
+})
 
 // ボタンによる入力
 document.getElementById("arrow-left-btn").addEventListener("click", function(){

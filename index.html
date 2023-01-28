@@ -40,11 +40,11 @@
                                             <p class="text">上矢印キー：&emsp;回転</p>
                                             <p class="text">左矢印キー：&emsp;左に移動</p>
                                             <p class="text">右矢印キー：&emsp;右に移動</p>
-                                            <p class="text">下矢印キー：&emsp;下まで落とす（ハードドロップ）</p>    
-                                        </div>        
+                                            <p class="text">下矢印キー：&emsp;下まで落とす（ハードドロップ）</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>                     
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
         <div class="display__score">
             <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
         </div>
-        
+
     </div>
     <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
     <div class="vh-80 d-flex justify-content-center flex-wrap">
@@ -81,9 +81,6 @@
         <button class="btn btn-light" onclick="startTetris();">Restart</button>
 
 
-
-
-    
         <div class="col-12 d-flex justify-content-center text-center mt-3">
             <!-- ボタン -->
             <div id="action" class="d-flex">
@@ -103,8 +100,23 @@
                 <a id="space-btn" class="btn btn-light position-center"><span class="material-symbols-outlined">minimize</span></a>
 
             </div>
-        
+
     </div>
+    <button id="modal-btn" type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="startTetris();">もう一度プレイする</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
