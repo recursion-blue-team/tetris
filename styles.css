@@ -1,5 +1,7 @@
 body {
-
+    margin: 0;
+	padding: 0;
+	box-sizing: border-box;
     font-weight: bold;
     font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
     background-color: #d6efff;
@@ -80,9 +82,6 @@ body {
 }
     
 
-canvas{
-    position: static;
-}
 
 .gameline{
     position: absolute;
@@ -101,10 +100,12 @@ canvas{
 }
 
 
+
 #next{
     position: relative;
     display: block;
 }
+
 .next-border{
     position: absolute;
     background: rgba(0, 0, 0, .5);
@@ -154,6 +155,7 @@ canvas{
     grid-column: 2 / 3;
 }
 
+
 #controller .position-right {
     grid-row: 2 / 3;
     grid-column: 3/4;
@@ -181,5 +183,6 @@ canvas{
     line-height: 43px;
     box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
     border-radius: 10px;
+
 }
 
