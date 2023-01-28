@@ -34,14 +34,14 @@ const DELETE_SOUND = new Audio("sounds/deleteSound.mp3");
 
 // テトロミノの色
 const TETRO_COLORS = [
-	"#000",			//0空
-	"#6CF",			//1水色
-	"#F92",			//2オレンジ
-	"#66F",			//3青
-	"#C5C",			//4紫
-	"#FD2",			//5黄色
-	"#F44",			//6赤
-	"#5B5"			//7緑
+    [0, 0, 0],          //0空
+    [102, 204, 255],    //1水色
+    [255, 153, 34],     //2オレンジ
+    [102, 102, 255],    //3青
+    [204, 85, 204],     //4紫
+    [255, 221, 34],     //5黄色
+    [255, 68, 68],      //6赤
+    [85, 187, 85]       //7緑
 ];
 
 const TETRO_TYPES = [
@@ -143,7 +143,7 @@ function initialize()
             field[y][x] = 0;
         }
     }
-    
+
 }
 
 
@@ -170,7 +170,7 @@ const buttonStop = document.getElementById("action-stop");
 buttonStop.addEventListener("click", ()=>{
     if(isDropping){
         dropStop();
-        buttonStop.innerHTML = 
+        buttonStop.innerHTML =
         `
         <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -179,7 +179,7 @@ buttonStop.addEventListener("click", ()=>{
         `;
     }else{
         dropStart();
-        buttonStop.innerHTML = 
+        buttonStop.innerHTML =
         `
         <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -193,7 +193,7 @@ buttonStop.addEventListener("click", ()=>{
 
 //一定間隔でdropTetroを呼び出します
 function dropStart()
-{   
+{
     startDrop = setInterval(dropTetro, DROP_SPEED);
     isDropping = true;
 }
@@ -277,13 +277,15 @@ function deleteLine()
 
 
 //ブロック一つを描画する関数です
-function drawBlock(x, y, color)
+function drawBlock(x, y, color, alpha = 1)
 {
     let px = x * BLOCK_SIZE;
     let py = y * BLOCK_SIZE;
-    context.fillStyle = TETRO_COLORS[color];
+    let r, g, b;
+    [r, g, b] = TETRO_COLORS[color];
+    context.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
     context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
-    context.strokeStyle = "rgba(0,0,0, .1)";
+    context.strokeStyle = `rgba(0, 0, 0, 0.1)`;    //黒色
     context.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
 }
 
@@ -320,7 +322,29 @@ function drawTetro()
 }
 
 
-/* 
+function drawPredictedLandingPoint()
+{
+    let dummyTetro = tetro;
+    let dummyMovementX = 0;
+    let dummyMovementY = 0;
+    while(canMove(dummyMovementX, dummyMovementY + 1, dummyTetro)){
+        dummyMovementY++;
+    }
+
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            if(tetro[y][x])
+            {
+                drawBlock(tetroX + dummyMovementX + x, tetroY + dummyMovementY + y, tetroType, 0.4)
+            }
+        }
+    }
+}
+
+
+/*
     　　　　　　ネクストテトロブロック　　　　　　　　　　
  */
 // ネクストテトロブロックを1つを描画する
@@ -328,7 +352,9 @@ function drawNextBlock(x, y, color)
 {
     let px = x * NEXT_BLOCK_SIZE;
     let py = y * NEXT_BLOCK_SIZE;
-    context.fillStyle = TETRO_COLORS[color];
+    let r, g, b;
+    [r, g, b] = TETRO_COLORS[color];
+    context.fillStyle = `rgba(${r}, ${g}, ${b}, 1)`;
     context.fillRect(px, py, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
     context.strokeStyle = "rgba(0,0,0, .1)";
     context.strokeRect(px, py, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
@@ -348,13 +374,14 @@ function drawNextTetro()
     }
 }
 
-/* 
+/*
     　　　　　　ネクストテトロブロック　　　　　　　　　　
  */
 
 function drawAll(){
     drawField();
     drawTetro();
+    drawPredictedLandingPoint();
     drawNextTetro();
 
     if(gameOver)
