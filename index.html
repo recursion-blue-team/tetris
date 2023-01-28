@@ -40,11 +40,11 @@
                                             <p class="text">上矢印キー：&emsp;回転</p>
                                             <p class="text">左矢印キー：&emsp;左に移動</p>
                                             <p class="text">右矢印キー：&emsp;右に移動</p>
-                                            <p class="text">下矢印キー：&emsp;下まで落とす（ハードドロップ）</p>    
-                                        </div>        
+                                            <p class="text">下矢印キー：&emsp;下まで落とす（ハードドロップ）</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>                     
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -57,19 +57,21 @@
     <div class="vh-80 d-flex justify-content-center flex-wrap">
         <div class="d-flex justify-content-center col-12">
             <!-- ボタン -->
-            <div id="action" class="ml-10 mt-2 col-4 col-sm-5 d-flex justify-content-end pl-1">
-                <a><span onclick="startTetris();" class="material-symbols-outlined">restart_alt</span></a>
-            </div>
-        
-            <div class="d-flex justify-content-center mt-2 p-2 ml-1 countdownCon col-7 col-sm-3">
-                <!--=============== カウントダウンタイマー ===============-->
-                <div id="timer" class="display__timer"><!-- 残り秒数が入ります --></div>
-        
-                <!--=============== スコアミッションエリア ===============-->
-                <div class="display__score">
-                    <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
+            <div class="d-flex">
+                <div id="action" class="ml-10 mt-2 pl-1 d-flex">
+                    <a><span onclick="startTetris();" class="material-symbols-outlined">restart_alt</span></a>
                 </div>
-            </div>    
+
+                <div class="mt-2 p-2 ml-1 countdownCon d-flex">
+                    <!--=============== カウントダウンタイマー ===============-->
+                    <div id="timer" class="display__timer"><!-- 残り秒数が入ります --></div>
+
+                    <!--=============== スコアミッションエリア ===============-->
+                    <div class="display__score">
+                        <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
+                    </div>
+                </div>
+            </div>
         </div>
     <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
         <div class="justify-content-center mt-3">
@@ -96,9 +98,9 @@
                     <a id="arrow-up-btn" class="btn btn-light position-top"><span class="material-icons">north</span></a>
                     <a id="space-btn" class="btn btn-light position-center"><span class="material-symbols-outlined">minimize</span></a>
                 </div>
-    
+
             </div>
-        
+
     </div>
 </div>
 
