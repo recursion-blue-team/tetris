@@ -521,8 +521,6 @@ function holdTetro()
         holdingTetro = tetro;
         tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
         tetro = TETRO_TYPES[tetroType];
-        tetroX = START_X;
-        tetroY = START_Y;
     }
 }
 
