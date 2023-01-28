@@ -1,1 +1,197 @@
+body {
+    overflow: hidden;
+    margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background-color: #d6efff;
+}
 
+.title {
+    font-size: 6em;
+    font-weight: bold;
+    text-shadow:  5px 10px 10px #bdc1ce,
+    -5px -5px 10px #ffffff;
+
+}
+
+.open {
+	cursor:pointer; /* マウスオーバーでカーソルの形状を変えることで、クリックできる要素だとわかりやすいように */
+}
+#pop-up {
+	display: none; /* label でコントロールするので input は非表示に */
+}
+.overlay {
+	display: none; /* input にチェックが入るまでは非表示に */
+}
+#pop-up:checked + .overlay {
+    display: block;
+    z-index: 9999;
+    background-color: #00000070;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+.window {
+    width: 90vw;
+    max-width: 500px;
+    height: 400px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.overlay .text {
+    text-align: start;
+    font-size: 18px;
+    margin: 0;
+}
+.close {
+    cursor:pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 35px;
+}
+
+.operation {
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff;
+    border-radius: 22px;
+}
+
+.btn1-primary {
+    color:#ecf1ff;
+    border: none;
+    box-shadow:0 6px 0 0 #040dff7b;
+    transform: translateY(-6px);
+    transition:0.3s all;
+    background: -webkit-linear-gradient(top,  #00ffdde5 0%,#043fff 100%); /* Chrome10-25,Safari5.1-6 */
+    box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
+}
+
+.btn1-primary:hover {
+    box-shadow:0 2px 0 0 #005400;
+    transform: translateY(-2px);
+}
+
+
+
+.countdownCon {
+    margin: 0 auto;
+    border-radius: 10px;
+    background: #d6efff;
+    box-shadow: inset -9px 9px 18px #b6cbd9, inset 9px -9px 18px #f6ffff;
+}
+
+
+.gameline{
+    position: absolute;
+    background: red;
+    border-radius: 5px;
+    /* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
+    left: 100px;
+    top: 100px;
+    height: 0.5rem;
+    width: 245px;
+}
+
+#controller{
+    display: inline-block;
+    margin-top: 50px;
+}
+
+
+
+#next{
+    position: relative;
+    display: block;
+}
+
+.next-border{
+    position: absolute;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+    left: 5px;
+    top: -510px;
+    height: 0.3rem;
+    width: 245px;
+}
+
+#controller a {
+    background-color: #d6efff;
+    margin: auto;
+    font-weight: bold;
+    text-align: center;
+    width: 55px;
+    height: 55px;
+    line-height: 53px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff;
+    border-radius: 10px;
+}
+
+#controller a:hover {
+    box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
+}
+
+#controller {
+    display: grid;
+    grid-template-columns: 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px;
+    margin-top: 10px;
+}
+
+#controller .position-top {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+}
+
+#controller .position-left {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+}
+
+#controller .position-center {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+}
+
+
+#controller .position-right {
+    grid-row: 2 / 3;
+    grid-column: 3/4;
+}
+
+#controller .position-bottom {
+    grid-row: 3 / 4;
+    grid-column: 2/3;
+}
+
+#canvas {
+    border-radius: 5px;
+    background: #d6efff;
+    box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
+}
+
+#action span {
+    background-color: #d6efff;
+    font-weight: bold;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    line-height: 34px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff;
+    border-radius: 10px;
+}
+
+#action span:hover {
+    box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
+}
