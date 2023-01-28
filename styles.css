@@ -82,6 +82,8 @@ body {
     transform: translateY(-2px);
 }
 
+
+
 .countdownCon {
     margin: 0 auto;
     border-radius: 10px;
@@ -177,4 +179,19 @@ body {
     border-radius: 5px;
     background: #d6efff;
     box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
+}
+
+#action span {
+    background-color: #d6efff;
+    font-weight: bold;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    line-height: 34px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff;
+    border-radius: 10px;
+}
+
+#action span:hover {
+    box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
 }

@@ -54,18 +54,24 @@
 </div>
 
 <div id="main-page" class="d-none">
-    <div class="col-3 d-flex justify-content-center mt-2 countdownCon">
-        <!--=============== カウントダウンタイマー ===============-->
-        <div id="timer" class="display__timer"><!-- 残り秒数が入ります --></div>
-
-        <!--=============== スコアミッションエリア ===============-->
-        <div class="display__score">
-            <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
-        </div>
-        
-    </div>
-    <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
     <div class="vh-80 d-flex justify-content-center flex-wrap">
+        <div class="d-flex justify-content-center col-12">
+            <!-- ボタン -->
+            <div id="action" class="ml-10 mt-2 col-4 col-sm-5 d-flex justify-content-end pl-1">
+                <a><span onclick="startTetris();" class="material-symbols-outlined">restart_alt</span></a>
+            </div>
+        
+            <div class="d-flex justify-content-center mt-2 p-2 ml-1 countdownCon col-7 col-sm-3">
+                <!--=============== カウントダウンタイマー ===============-->
+                <div id="timer" class="display__timer"><!-- 残り秒数が入ります --></div>
+        
+                <!--=============== スコアミッションエリア ===============-->
+                <div class="display__score">
+                    <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
+                </div>
+            </div>    
+        </div>
+    <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
         <div class="justify-content-center mt-3">
             <canvas id="canvas"><div class="gameline col-12"></div></canvas>
 
@@ -77,31 +83,20 @@
         <div class="next-border"></div>
     </div>
     <!-- ボタン -->
-    <div id="action">
-        <button class="btn btn-light" onclick="startTetris();">Restart</button>
 
 
-
-
-    
-        <div class="col-12 d-flex justify-content-center text-center mt-3">
-            <!-- ボタン -->
-            <div id="action" class="d-flex">
-                <div id="action-reset" class="action__reset">
-                    <span class="material-symbols-outlined">restart_alt</span>
-                </div>
-            </div>
-        </div>
 
 
             <!-- コントローラー -->
-            <div id="controller">
-                <a id="arrow-left-btn" class="btn btn-light position-left"><span class="material-icons">west</span></a>
-                <a id="arrow-right-btn" class="btn btn-light position-right"><span class="material-icons">east</span></a>
-                <a id="arrow-down-btn" class="btn btn-light position-bottom"><span class="material-icons">south</span></a>
-                <a id="arrow-up-btn" class="btn btn-light position-top"><span class="material-icons">north</span></a>
-                <a id="space-btn" class="btn btn-light position-center"><span class="material-symbols-outlined">minimize</span></a>
-
+            <div class="d-flex justify-content-center">
+                <div id="controller">
+                    <a id="arrow-left-btn" class="btn btn-light position-left"><span class="material-icons">west</span></a>
+                    <a id="arrow-right-btn" class="btn btn-light position-right"><span class="material-icons">east</span></a>
+                    <a id="arrow-down-btn" class="btn btn-light position-bottom"><span class="material-icons">south</span></a>
+                    <a id="arrow-up-btn" class="btn btn-light position-top"><span class="material-icons">north</span></a>
+                    <a id="space-btn" class="btn btn-light position-center"><span class="material-symbols-outlined">minimize</span></a>
+                </div>
+    
             </div>
         
     </div>
