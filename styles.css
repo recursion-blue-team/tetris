@@ -1,4 +1,5 @@
 body {
+    overflow: hidden;
     margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -62,7 +63,7 @@ body {
 }
 
 .operation {
-    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff;
     border-radius: 22px;
 }
 
@@ -80,7 +81,7 @@ body {
     box-shadow:0 2px 0 0 #005400;
     transform: translateY(-2px);
 }
-    
+
 
 
 .gameline{
@@ -125,7 +126,7 @@ body {
     width: 55px;
     height: 55px;
     line-height: 53px;
-    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff;
     border-radius: 10px;
 }
 
@@ -171,18 +172,3 @@ body {
     background: #d6efff;
     box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
 }
-
-
-#action-stop span {
-    background-color: #d6efff;
-    margin: auto;
-    font-weight: bold;
-    text-align: center;
-    width: 45px;
-    height: 45px;
-    line-height: 43px;
-    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
-    border-radius: 10px;
-
-}
-

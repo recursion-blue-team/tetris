@@ -1,17 +1,14 @@
-const config = 
+const config =
 {
     initialPage : document.getElementById("initial-page"),
     mainPage : document.getElementById("main-page"),
 }
 
-function gameStart() 
+function gameStart()
 {
     initialize();
     drawAll();
     startTimer();
-
-    //一定間隔でdropTetroを呼び出します
-    dropStart()
 }
 
 function startTetris()
@@ -43,7 +40,7 @@ const context = canvas.getContext("2d");
 //ブロック１単位のピクセルサイズ
 const BLOCK_SIZE = 25;
 
-const NEXT_BLOCK_SIZE = (BLOCK_SIZE / 2);
+const SMALL_BLOCK_SIZE = (BLOCK_SIZE / 2);
 //テトロミノのサイズ
 const TETRO_SIZE = 4;
 
@@ -164,8 +161,18 @@ let tetroY = START_Y;
 
 // テトロミノの形
 let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[tetroType];
+
+const HOLD_X = 15.5;
+const HOLD_Y = 0.5;
+
+// ホールドしたテトロミノの形
+let holdingTetroType = 0;
+
+// ホールドしたテトロミノ
+let holdingTetro = undefined;
 
 // ネクストテトロの描画座標
 const NEXT_X = 0.5;
@@ -216,7 +223,6 @@ function setTetro()
 // btnRestart.addEventListener('click', ()=>{
 //    console.log(btnRestart);
 //    console.log('こんちゃ');
-
 // })
 
 const timer = document.getElementById('timer');
@@ -229,7 +235,7 @@ function startTimer(){
     const countDown = setInterval(()=>
     {
         timer.innerText = TIME - getTimerTime();
-        if(timer.innerText <= 0) 
+        if(timer.innerText <= 0)
         {
             gameOver = true;
             notifyUsersGameOver();
@@ -243,41 +249,7 @@ function getTimerTime(){
     return Math.floor((new Date() - startTime) /1000);
 }
 
-let isDropping;
-// 一時停止ボタン
-const buttonStop = document.getElementById("action-stop");
-buttonStop.addEventListener("click", ()=>{
-    if(isDropping){
-        dropStop();
-        buttonStop.innerHTML =
-        `
-        <span class="material-icons">play_arrow</span>        `;
-    }else{
-        dropStart();
-        buttonStop.innerHTML =
-        `
-        <span class="material-icons">pause</span>
-        `;
-    }
-});
-
-
-
-//一定間隔でdropTetroを呼び出します
-function dropStart()
-{
-    startDrop = setInterval(dropTetro, DROP_SPEED);
-    isDropping = true;
-}
-
-
-// 一時停止処理
-function dropStop()
-{
-    clearInterval(startDrop);
-    isDropping = false;
-}
-
+setInterval(dropTetro, DROP_SPEED);
 
 //テトロミノを落下させる関数です
 function dropTetro()
@@ -421,44 +393,72 @@ function drawPredictedLandingPoint()
 }
 
 
-/*
-    　　　　　　ネクストテトロブロック　　　　　　　　　　
- */
-// ネクストテトロブロックを1つを描画する
-function drawNextBlock(x, y, color)
+// 小さいテトロブロックを1つを描画する
+function drawSmallBlock(x, y, color)
 {
-    let px = x * NEXT_BLOCK_SIZE;
-    let py = y * NEXT_BLOCK_SIZE;
+    let px = x * SMALL_BLOCK_SIZE;
+    let py = y * SMALL_BLOCK_SIZE;
     let r, g, b;
     [r, g, b] = TETRO_COLORS[color];
     context.fillStyle = `rgba(${r}, ${g}, ${b}, 1)`;
-    context.fillRect(px, py, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
-    context.strokeStyle = "rgba(0,0,0, .1)";
-    context.strokeRect(px, py, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
+    context.fillRect(px, py, SMALL_BLOCK_SIZE, SMALL_BLOCK_SIZE);
+    context.strokeStyle = "rgba(0, 0, 0, 0.1)";
+    context.strokeRect(px, py, SMALL_BLOCK_SIZE, SMALL_BLOCK_SIZE);
 }
 
 function drawNextTetro()
 {
+    let msg = "NEXT";
+    let index = 0;
     for(let y = 0; y < TETRO_SIZE; y++)
     {
         for(let x = 0; x < TETRO_SIZE; x++)
         {
             if(nextTetro[y][x])
             {
-                drawNextBlock(NEXT_X + x, NEXT_Y +y, nextTetroType)
+                drawSmallBlock(NEXT_X + x, NEXT_Y +y, nextTetroType);
+                putCharInSmallBlock(NEXT_X + x, NEXT_Y +y, msg[index]);
+                index++;
             }
         }
     }
 }
 
-/*
-    　　　　　　ネクストテトロブロック　　　　　　　　　　
- */
+function drawHoldTetro()
+{
+    let msg = "HOLD";
+    let index = 0;
+    if(holdingTetro === undefined) return;
+    for(let y = 0; y < TETRO_SIZE; y++)
+    {
+        for(let x = 0; x < TETRO_SIZE; x++)
+        {
+            if(holdingTetro[y][x])
+            {
+                drawSmallBlock(HOLD_X + x, HOLD_Y + y, holdingTetroType);
+                putCharInSmallBlock(HOLD_X + x, HOLD_Y +y, msg[index]);
+                index++;
+            }
+        }
+    }
+}
+
+function putCharInSmallBlock(x, y, char)
+{
+    let offset = SMALL_BLOCK_SIZE / 2;
+    context.font = `${SMALL_BLOCK_SIZE * 0.8}px "MS ゴシック"`;
+    context.fillStyle = `rgba(0, 0, 0, 1)`;
+    context.textBaseline = "center";
+    context.textAlign = "center";
+    context.fillText(char, x * SMALL_BLOCK_SIZE + offset, (y + 0.3) * SMALL_BLOCK_SIZE + offset);
+}
+
 
 function drawAll(){
     context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     drawField();
     drawNextTetro();
+    drawHoldTetro();
     // ゲームオーバーであれば新たにテトロミノや予測地点を描画しない
     if(gameOver) return;
     drawTetro();
@@ -524,6 +524,30 @@ function notifyUsersGameClear()
     context.lineWidth = 1;
 }
 
+// ホールド機能
+function holdTetro()
+{
+    if(holdingTetro !== undefined)
+    {
+        // フィールド中のテトロミノとホールドしたテトロミノの入れ替え
+        if(!canMove(0, 0, holdingTetro))
+        {
+            if(canMove(-1, 0, holdingTetro)) tetroX--;
+            if(canMove(1, 0, holdingTetro)) tetroY++;
+        }
+        [tetroType, holdingTetroType] = [holdingTetroType, tetroType];
+        [tetro, holdingTetro] = [holdingTetro, tetro];
+    }
+    else
+    {
+        // ホールドしているテトロミノがないとき（初回のホールド）は新たにテトロミノを作成する
+        holdingTetroType = tetroType;
+        holdingTetro = tetro;
+        tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+        tetro = TETRO_TYPES[tetroType];
+    }
+}
+
 // ゲームオーバーを判定
 function isGameOver()
 {
@@ -543,27 +567,28 @@ function notifyUsersGameOver()
 {
     let msg = "GAME OVER";
     context.font = "40px 'MS ゴシック'";
-    let msgWidth = context.measureText(msg).width;
-    let x = SCREEN_WIDTH / 2 - msgWidth / 2;
-    let y = SCREEN_HEIGHT / 2 - 20;
-    context.lineWidth = 4;
-    context.strokeText(msg, x, y);
-    context.lineWidth = 1;
+    context.fillStyle = `rgba(0, 0, 0, 1)`
+    context.textBaseline = "center";
+    context.textAlign = "center";
+    context.fillText(msg, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 // ボタンによる入力
 document.getElementById("arrow-left-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowLeft"}));
-})
+});
 document.getElementById("arrow-right-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowRight"}));
-})
+});
 document.getElementById("arrow-down-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowDown"}));
-})
+});
 document.getElementById("arrow-up-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowUp"}));
-})
+});
+document.getElementById("space-btn").addEventListener("click", function(){
+    document.dispatchEvent(new KeyboardEvent( "keydown", {key: " "}));
+});
 
 // テトロミノを移動するイベント関数です。
 document.onkeydown = function(e)
@@ -572,18 +597,21 @@ document.onkeydown = function(e)
     switch(e.key)
     {
         case "ArrowLeft": // ←
-            if( (isDropping) && (canMove(-1, 0)) ) tetroX--;
+            if(canMove(-1, 0)) tetroX--;
             break;
         case "ArrowRight": // →
-            if( (isDropping) && (canMove(1, 0)) ) tetroX++;
+            if(canMove(1, 0)) tetroX++;
             break;
         case "ArrowDown": // ↓
-            while( (isDropping) && (canMove(0, 1)) ) tetroY++;
+            while(canMove(0, 1)) tetroY++;
             break;
-        case "ArrowUp": // スペースキー
+        case "ArrowUp": // ↑
             let newTetro = rotate();
-            if( (isDropping) && (canMove(0, 0, newTetro)) ) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
+            if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
+        case " ": //スペース
+        holdTetro();
+        break;
     }
     drawAll();
 }
