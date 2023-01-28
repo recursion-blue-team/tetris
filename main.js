@@ -6,9 +6,40 @@ const config =
 
 let interval = undefined;
 
+//テトロミノが落ちるスピード
+let dropSpeed;
+
+// ミッションクリア数
+let deleteMissions;
+
 function gameStart()
 {
+    gameOver = false;
+    gameClear = false;
     initializeField();
+
+    // 難易度によって落下速度変化
+    let difficulty = document.querySelector('#difficulty');
+    if(difficulty.value === 'easy'){
+        dropSpeed = 900;
+    }else if(difficulty.value === 'normal'){
+        dropSpeed = 600;
+    }else if(difficulty.value === 'hard'){
+        dropSpeed = 300;
+    } 
+
+    // ゲームミッション数を表示
+    if(dropSpeed === 900){
+        deleteMissions = 5;
+    }else if(dropSpeed === 600){
+        deleteMissions = 7;
+    }else if(dropSpeed === 300){
+        deleteMissions = 10;
+    };
+
+    let displayDeleteMissionsEle = document.getElementById('display-lines-left');
+    displayDeleteMissionsEle.innerText = `${deleteMissions}`
+        
     // テトロの座標
     tetroX = START_X;
     tetroY = START_Y;
@@ -25,7 +56,7 @@ function gameStart()
     drawAll();
     startTimer();
     clearInterval(interval);
-    interval = setInterval(dropTetro, DROP_SPEED);
+    interval = setInterval(dropTetro, dropSpeed);
 }
 
 function startTetris()
@@ -72,21 +103,10 @@ canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
 canvas.style.border = "1px solid #fff";
 
-//テトロミノが落ちるスピード
-const DROP_SPEED = 600;
 
-// ゲームミッション
-let deleteMissions;
-if(DROP_SPEED == 300){
-    deleteMissions = 5;
-}else if(DROP_SPEED == 600){
-    deleteMissions = 7;
-}else if(DROP_SPEED == 900){
-    deleteMissions = 10;
-};
 
-let displayDeleteMissionsEle = document.getElementById('display-lines-left');
-displayDeleteMissionsEle.innerText = `${deleteMissions}`
+
+
 
 
 //効果音
@@ -234,15 +254,8 @@ function setTetro()
     tetroY = START_Y;
 }
 
-// // ゲームリスタートボタン
-// let btnRestart = document.querySelector(".action__reset");
-// btnRestart.addEventListener('click', ()=>{
-//    console.log(btnRestart);
-//    console.log('こんちゃ');
-// })
-
 const timer = document.getElementById('timer');
-const TIME = 10;
+const TIME = 180;
 let startTime;
 function startTimer(){
     // タイマーをスタートする処理
@@ -517,27 +530,6 @@ function rotate()
     return newTetro;
 }
 
-// ゲームクリアを判定
-function isGameClear(){
-    if(deleteMissions <= 0){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function notifyUsersGameClear()
-{
-    let msg = "CLEAR";
-    context.font = "50px 'MS ゴシック'";
-    let msgWidth = context.measureText(msg).width;
-    let x = SCREEN_WIDTH / 2 - msgWidth / 2;
-    let y = SCREEN_HEIGHT / 2 - 20;
-    context.lineWidth = 4;
-    context.strokeText(msg, x, y);
-    context.lineWidth = 1;
-}
-
 // ホールド機能
 function holdTetro()
 {
@@ -562,6 +554,8 @@ function holdTetro()
     }
 }
 
+let message = {title: "", msg: ""};
+
 // ゲームオーバーを判定
 function isGameOver()
 {
@@ -579,13 +573,35 @@ function isGameOver()
 
 function notifyUsersGameOver()
 {
-    let msg = "GAME OVER";
-    context.font = "40px 'MS ゴシック'";
-    context.fillStyle = `rgba(0, 0, 0, 1)`
-    context.textBaseline = "center";
-    context.textAlign = "center";
-    context.fillText(msg, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    message["title"] = "ゲームオーバー";
+    message["msg"] = "時間切れです！再度挑戦してみましょう";
+    document.getElementById("modal-btn").dispatchEvent(new Event("click"));
 }
+
+// ゲームクリアを判定
+function isGameClear(){
+    if(deleteMissions <= 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function notifyUsersGameClear()
+{
+    message["title"] = "ゲームクリア";
+    message["msg"] = "おめでとうございます！クリアタイムの短縮を目指しましょう！";
+    document.getElementById("modal-btn").dispatchEvent(new Event("click"));
+}
+
+let exampleModal = document.getElementById('exampleModal')
+exampleModal.addEventListener('show.bs.modal', function() {
+  let modalTitle = exampleModal.querySelector('.modal-title')
+  let modalBodyInput = exampleModal.querySelector('.modal-body')
+
+  modalTitle.textContent = message["title"];
+  modalBodyInput.innerHTML = message["msg"];
+})
 
 // ボタンによる入力
 document.getElementById("arrow-left-btn").addEventListener("click", function(){
