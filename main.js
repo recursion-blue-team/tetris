@@ -219,13 +219,10 @@ function dropTetro()
         fixTetro();
         deleteLine();
         setTetro();
-
-        if(!canMove(0, 0))
-        {
-            gameOver = true;
-        }
     }
+    gameOver = isGameOver();
     drawAll();
+    if(gameOver) notifyUsersGameOver();
 }
 
 
@@ -292,8 +289,6 @@ function drawBlock(x, y, color, alpha = 1)
 //フィールドを表示する関数です
 function drawField()
 {
-    context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
     for(let y = 0; y < FIELD_ROW; y++)
     {
         for(let x = 0; x < FIELD_COL; x++)
@@ -379,21 +374,13 @@ function drawNextTetro()
  */
 
 function drawAll(){
+    context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     drawField();
+    drawNextTetro();
+    // ゲームオーバーであれば新たにテトロミノや予測地点を描画しない
+    if(gameOver) return;
     drawTetro();
     drawPredictedLandingPoint();
-    drawNextTetro();
-
-    if(gameOver)
-    {
-        let msg = "GAME OVER";
-        context.font = "40px 'MS ゴシック'";
-        let msgWidth = context.measureText(msg).width;
-        let x = SCREEN_WIDTH / 2 - msgWidth / 2;
-        let y = SCREEN_HEIGHT / 2 - 20;
-        context.lineWidth = 4;
-        context.strokeText(msg, x, y);
-    }
 }
 
 // ブロックの当たり判定
@@ -432,6 +419,33 @@ function rotate()
     ROTATE_SOUND.currentTime = 0;
     ROTATE_SOUND.play();
     return newTetro;
+}
+
+// ゲームオーバーを判定
+function isGameOver()
+{
+    // フィールドのy = 1にブロックがあった場合、ゲームオーバー
+    let y = 2;
+    for(let x = 0; x < FIELD_COL; x++)
+    {
+        if(field[y][x])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+function notifyUsersGameOver()
+{
+    let msg = "GAME OVER";
+    context.font = "40px 'MS ゴシック'";
+    let msgWidth = context.measureText(msg).width;
+    let x = SCREEN_WIDTH / 2 - msgWidth / 2;
+    let y = SCREEN_HEIGHT / 2 - 20;
+    context.lineWidth = 4;
+    context.strokeText(msg, x, y);
+    context.lineWidth = 1;
 }
 
 // ボタンによる入力
