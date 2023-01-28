@@ -33,6 +33,8 @@ function startTetris()
     displayNone(config.initialPage);
     displayBlock(config.mainPage);
     gameStart();
+    MUSIC.currentTime = 0;
+    MUSIC.play();
 }
 
 
@@ -90,6 +92,7 @@ displayDeleteMissionsEle.innerText = `${deleteMissions}`
 
 
 //効果音
+const MUSIC = new Audio("sounds/tetris-remix.mp3");
 const ROTATE_SOUND = new Audio("sounds/rotateSound.mp3");
 const STACK_SOUND = new Audio("sounds/stackSound.mp3");
 const DELETE_SOUND = new Audio("sounds/deleteSound.mp3");
@@ -629,3 +632,4 @@ document.onkeydown = function(e)
     }
     drawAll();
 }
+
