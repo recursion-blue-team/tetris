@@ -8,9 +8,7 @@ function gameStart()
 {
     initialize();
     drawAll();
-
-    //一定間隔でdropTetroを呼び出します
-    dropStart()
+    startTimer();
 }
 
 function startTetris()
@@ -55,12 +53,24 @@ const SCREEN_WIDTH = BLOCK_SIZE * FIELD_COL; // 300px
 const SCREEN_HEIGHT = BLOCK_SIZE * FIELD_ROW; // 550px
 canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
-canvas.style.border = "4px solid #555";
-
-
+canvas.style.border = "1px solid #fff";
 
 //テトロミノが落ちるスピード
 const DROP_SPEED = 600;
+
+// ゲームミッション
+let deleteMissions;
+if(DROP_SPEED == 300){
+    deleteMissions = 5;
+}else if(DROP_SPEED == 600){
+    deleteMissions = 7;
+}else if(DROP_SPEED == 900){
+    deleteMissions = 10;
+};
+
+let displayDeleteMissionsEle = document.getElementById('display-lines-left');
+displayDeleteMissionsEle.innerText = `${deleteMissions}`
+
 
 //効果音
 const ROTATE_SOUND = new Audio("sounds/rotateSound.mp3");
@@ -151,6 +161,7 @@ let tetroY = START_Y;
 
 // テトロミノの形
 let tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+
 // 描画対象のテトロミノ
 let tetro = TETRO_TYPES[tetroType];
 
@@ -176,6 +187,9 @@ let field = [];
 
 // ゲームオーバーを判定するフラグ
 let gameOver = false;
+
+// ゲームクリアを判定するフラグ
+let gameClear = false;
 
 //二次元配列にしてフィールドを初期化する関数です
 function initialize()
@@ -204,54 +218,44 @@ function setTetro()
     tetroY = START_Y;
 }
 
+// // ゲームリスタートボタン
+// let btnRestart = document.querySelector(".action__reset");
+// btnRestart.addEventListener('click', ()=>{
+//    console.log(btnRestart);
+//    console.log('こんちゃ');
+// })
 
-let isDropping;
-// 一時停止ボタン
-const buttonStop = document.getElementById("action-stop");
-buttonStop.addEventListener("click", ()=>{
-    if(isDropping){
-        dropStop();
-        buttonStop.innerHTML =
-        `
-        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
-        </svg>
-        `;
-    }else{
-        dropStart();
-        buttonStop.innerHTML =
-        `
-        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z" />
-        </svg>
-        `;
-    }
-});
-
-
-
-//一定間隔でdropTetroを呼び出します
-function dropStart()
-{
-    startDrop = setInterval(dropTetro, DROP_SPEED);
-    isDropping = true;
+const timer = document.getElementById('timer');
+const TIME = 10;
+let startTime;
+function startTimer(){
+    // タイマーをスタートする処理
+    timer.innerText = TIME;
+    startTime = new Date();
+    const countDown = setInterval(()=>
+    {
+        timer.innerText = TIME - getTimerTime();
+        if(timer.innerText <= 0)
+        {
+            gameOver = true;
+            notifyUsersGameOver();
+            clearInterval(countDown);
+        }
+    },
+        1000);
 }
 
-
-// 一時停止処理
-function dropStop()
-{
-    clearInterval(startDrop);
-    isDropping = false;
+function getTimerTime(){
+    return Math.floor((new Date() - startTime) /1000);
 }
 
+setInterval(dropTetro, DROP_SPEED);
 
 //テトロミノを落下させる関数です
 function dropTetro()
 {
     if(gameOver) return;
+    if(gameClear) return;
 
     if(canMove(0, 1)) tetroY++;
     if(!canMove(0, 1))
@@ -261,8 +265,10 @@ function dropTetro()
         setTetro();
     }
     gameOver = isGameOver();
+    gameClear = isGameClear();
     drawAll();
     if(gameOver) notifyUsersGameOver();
+    if(gameClear) notifyUsersGameClear();
 }
 
 
@@ -284,6 +290,11 @@ function fixTetro()
 
 }
 
+ function displayDeleteMissions(){
+    // 残りライン数を表示する関数が入ります。
+    displayDeleteMissionsEle.innerHTML = `${deleteMissions >= 0 ? deleteMissions : 0}`;
+ }
+
 //一行そろった時にブロックを消す関数です。
 function deleteLine()
 {
@@ -299,7 +310,9 @@ function deleteLine()
             }
         }
         if(flag)
-
+        {
+            deleteMissions --;
+            displayDeleteMissions();
             for(let newY = y; newY > 0; newY--)
             {
                 for(let newX = 0; newX < FIELD_ROW; newX++)
@@ -309,6 +322,7 @@ function deleteLine()
                     DELETE_SOUND.play();
                 }
             }
+        }
     }
 }
 
@@ -405,7 +419,6 @@ function drawNextTetro()
                 drawSmallBlock(NEXT_X + x, NEXT_Y +y, nextTetroType);
                 putCharInSmallBlock(NEXT_X + x, NEXT_Y +y, msg[index]);
                 index++;
-                // drawString(msg, NEXT_X, NEXT_Y);
             }
         }
     }
@@ -425,20 +438,10 @@ function drawHoldTetro()
                 drawSmallBlock(HOLD_X + x, HOLD_Y + y, holdingTetroType);
                 putCharInSmallBlock(HOLD_X + x, HOLD_Y +y, msg[index]);
                 index++;
-                // drawString(msg, HOLD_X, HOLD_Y);
             }
         }
     }
 }
-
-// function drawString(msg, x, y)
-// {
-//     context.font = `${SMALL_BLOCK_SIZE * 1.7}px "MS ゴシック"`;
-//     context.fillStyle = `rgba(0, 0, 0, 0.2)`;
-//     context.textBaseline = "center";
-//     context.textAlign = "center";
-//     context.fillText(msg, (x + 2) * SMALL_BLOCK_SIZE, (y + 2) * SMALL_BLOCK_SIZE);
-// }
 
 function putCharInSmallBlock(x, y, char)
 {
@@ -498,6 +501,27 @@ function rotate()
     ROTATE_SOUND.currentTime = 0;
     ROTATE_SOUND.play();
     return newTetro;
+}
+
+// ゲームクリアを判定
+function isGameClear(){
+    if(deleteMissions <= 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function notifyUsersGameClear()
+{
+    let msg = "CLEAR";
+    context.font = "50px 'MS ゴシック'";
+    let msgWidth = context.measureText(msg).width;
+    let x = SCREEN_WIDTH / 2 - msgWidth / 2;
+    let y = SCREEN_HEIGHT / 2 - 20;
+    context.lineWidth = 4;
+    context.strokeText(msg, x, y);
+    context.lineWidth = 1;
 }
 
 // ホールド機能
@@ -563,7 +587,6 @@ document.getElementById("arrow-up-btn").addEventListener("click", function(){
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: "ArrowUp"}));
 });
 document.getElementById("space-btn").addEventListener("click", function(){
-    console.log("aaa")
     document.dispatchEvent(new KeyboardEvent( "keydown", {key: " "}));
 });
 
@@ -574,17 +597,17 @@ document.onkeydown = function(e)
     switch(e.key)
     {
         case "ArrowLeft": // ←
-            if( (isDropping) && (canMove(-1, 0)) ) tetroX--;
+            if(canMove(-1, 0)) tetroX--;
             break;
         case "ArrowRight": // →
-            if( (isDropping) && (canMove(1, 0)) ) tetroX++;
+            if(canMove(1, 0)) tetroX++;
             break;
         case "ArrowDown": // ↓
-            while( (isDropping) && (canMove(0, 1)) ) tetroY++;
+            while(canMove(0, 1)) tetroY++;
             break;
         case "ArrowUp": // ↑
             let newTetro = rotate();
-            if( (isDropping) && (canMove(0, 0, newTetro)) ) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
+            if(canMove(0, 0, newTetro)) tetro = newTetro; //回転する先にテトロミノor壁がない場合、回転できる
             break;
         case " ": //スペース
         holdTetro();
