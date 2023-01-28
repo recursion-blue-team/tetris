@@ -515,4 +515,3 @@ document.onkeydown = function(e)
     }
     drawAll();
 }
-

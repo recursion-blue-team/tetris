@@ -2,7 +2,7 @@ body {
 
     font-weight: bold;
     font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
-    background-color: #f0f4ff;
+    background-color: #d6efff;
 }
 
 .title {
@@ -60,9 +60,8 @@ body {
 }
 
 .operation {
-    box-shadow:  5px 5px 10px #bec1c9,
-    -5px -5px 10px #ffffff;
-        border-radius: 22px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    border-radius: 22px;
 }
 
 .btn1-primary {
@@ -136,16 +135,27 @@ canvas{
     width: 245px;
 }
 
-#controller button {
+#controller a {
+    background-color: #d6efff;
+    margin: auto;
+    font-weight: bold;
     text-align: center;
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
+    line-height: 35px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    border-radius: 10px;
+}
+
+#controller a:hover {
+    box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
+
 }
 
 #controller {
     display: grid;
-    grid-template-columns: 50px 50px 50px;
-    grid-template-rows: 50px 50px 50px;
+    grid-template-columns: 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px;
 }
 
 #controller .position-top {
@@ -172,3 +182,4 @@ canvas{
     grid-row: 3 / 4;
     grid-column: 2/3;
 }
+
