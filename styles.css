@@ -4,7 +4,7 @@ body {
 	box-sizing: border-box;
     font-weight: bold;
     font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
-    background-color: #f0f4ff;
+    background-color: #d6efff;
 }
 
 .title {
@@ -62,9 +62,8 @@ body {
 }
 
 .operation {
-    box-shadow:  5px 5px 10px #bec1c9,
-    -5px -5px 10px #ffffff;
-        border-radius: 22px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    border-radius: 22px;
 }
 
 .btn1-primary {
@@ -74,8 +73,7 @@ body {
     transform: translateY(-6px);
     transition:0.3s all;
     background: -webkit-linear-gradient(top,  #00ffdde5 0%,#043fff 100%); /* Chrome10-25,Safari5.1-6 */
-    box-shadow:  5px 5px 10px #bec1c9,
-             -5px -5px 10px #ffffff;
+    box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
 }
 
 .btn1-primary:hover {
@@ -84,15 +82,16 @@ body {
 }
     
 
+
 .gameline{
-  position: absolute;
-	background: red;
-	border-radius: 5px;
-	/* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
-	left: 100px;
-	top: 100px;
-	height: 0.5rem;
-	width: 245px;
+    position: absolute;
+    background: red;
+    border-radius: 5px;
+    /* box-shadow: 0 3px 6px rgb(0 0 0 / 10%); */
+    left: 100px;
+    top: 100px;
+    height: 0.5rem;
+    width: 245px;
 }
 
 #controller{
@@ -100,48 +99,90 @@ body {
     margin-top: 50px;
 }
 
-#action {
-	position: relative;
-    display: block;
-}
-.action__reset {
-    position: absolute;
-	background: transparent;
-	border-radius: 5px;
-	cursor: pointer;
-	left: 10px;
-	top:0;
-	height: 2.5rem;
-	width: 2.5rem;
-}
-.action__stop {
-    position: absolute;
-	background: transparent;
-	border-radius: 5px;
-	cursor: pointer;
-	left: 80px;
-	top:0;
-	height: 2.5rem;
-	width: 2.5rem;
-    opacity: 1;  /*本番用は0にして透明にする*/
-}
 
 
 #next{
     position: relative;
     display: block;
 }
-/* .next-borderでフィールドにネクスト下部のボーダーを描いています。
-    絶対値で配置しているので親要素(#next)を動かさない限り動きません。
-*/
+
 .next-border{
-  position: absolute;
-	background: rgba(0, 0, 0, .5);
-	border-radius: 5px;
-	box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
-	left: 5px;
-	top: -510px;
-	height: 0.5rem;
-	width: 245px;
+    position: absolute;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+    left: 5px;
+    top: -510px;
+    height: 0.3rem;
+    width: 245px;
+}
+
+#controller a {
+    background-color: #d6efff;
+    margin: auto;
+    font-weight: bold;
+    text-align: center;
+    width: 55px;
+    height: 55px;
+    line-height: 53px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    border-radius: 10px;
+}
+
+#controller a:hover {
+    box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
+}
+
+#controller {
+    display: grid;
+    grid-template-columns: 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px;
+    margin-top: 10px;
+}
+
+#controller .position-top {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+}
+
+#controller .position-left {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+}
+
+#controller .position-center {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+}
+
+
+#controller .position-right {
+    grid-row: 2 / 3;
+    grid-column: 3/4;
+}
+
+#controller .position-bottom {
+    grid-row: 3 / 4;
+    grid-column: 2/3;
+}
+
+#canvas {
+    border-radius: 5px;
+    background: #d6efff;
+    box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
+}
+
+
+#action-stop span {
+    background-color: #d6efff;
+    margin: auto;
+    font-weight: bold;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    line-height: 43px;
+    box-shadow:  5px 5px 10px #bec1c9,-5px -5px 10px #ffffff; 
+    border-radius: 10px;
+
 }
 
