@@ -82,6 +82,12 @@ body {
     transform: translateY(-2px);
 }
 
+.countdownCon {
+    margin: 0 auto;
+    border-radius: 10px;
+    background: #d6efff;
+    box-shadow: inset -9px 9px 18px #b6cbd9, inset 9px -9px 18px #f6ffff;
+}
 
 
 .gameline{
