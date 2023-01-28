@@ -4,11 +4,28 @@ const config =
     mainPage : document.getElementById("main-page"),
 }
 
+let interval = undefined;
+
 function gameStart()
 {
-    initialize();
+    initializeField();
+    // テトロの座標
+    tetroX = START_X;
+    tetroY = START_Y;
+    // テトロミノの形
+    tetroType = Math.floor(Math.random() * (TETRO_TYPES.length - 1)) + 1;
+    // 描画対象のテトロミノ
+    tetro = TETRO_TYPES[tetroType];
+    // ホールドしたテトロミノの形
+    holdingTetroType = 0;
+    // ホールドしたテトロミノ
+    holdingTetro = undefined;
+    setTetro();
+
     drawAll();
     startTimer();
+    clearInterval(interval);
+    interval = setInterval(dropTetro, DROP_SPEED);
 }
 
 function startTetris()
@@ -192,7 +209,7 @@ let gameOver = false;
 let gameClear = false;
 
 //二次元配列にしてフィールドを初期化する関数です
-function initialize()
+function initializeField()
 {
     for (let y = 0; y < FIELD_ROW; y++)
     {
@@ -204,7 +221,6 @@ function initialize()
     }
 
 }
-
 
 
 function setTetro()
@@ -248,8 +264,6 @@ function startTimer(){
 function getTimerTime(){
     return Math.floor((new Date() - startTime) /1000);
 }
-
-setInterval(dropTetro, DROP_SPEED);
 
 //テトロミノを落下させる関数です
 function dropTetro()
