@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="styles.css">
     <title>Tetris</title>
 </head>
@@ -23,13 +24,11 @@
                             <button type="button" class="btn1-primary btn-lg col-8" onclick="startTetris()">START</button>
                         <div class="mt-5 operation">
                             <div class="btn-group mt-4">
-                                <!-- <select class="dropdown-menu" aria-labelledby="btnOpenMenu"> -->
                                 <select class="btn-lg btn-outline-primary" id="difficulty">
                                     <option class="dropdown-item" value="easy">Easy</option>
                                     <option class="dropdown-item" value="normal" selected>Normal</option>
                                     <option class="dropdown-item" value="hard">Hard</option>
-                                </select>
-                            </div>
+                                </select>                            </div>
                             <label class="open btn-sm btn-primary col-7 my-4" for="pop-up">遊び方</label>
                             <input type="checkbox" id="pop-up">
                             <div class="overlay">
@@ -41,11 +40,11 @@
                                             <p class="text">上矢印キー：&emsp;回転</p>
                                             <p class="text">左矢印キー：&emsp;左に移動</p>
                                             <p class="text">右矢印キー：&emsp;右に移動</p>
-                                            <p class="text">下矢印キー：&emsp;下まで落とす（ハードドロップ）</p>
-                                        </div>
+                                            <p class="text">下矢印キー：&emsp;下まで落とす（ハードドロップ）</p>    
+                                        </div>        
                                     </div>
                                 </div>
-                            </div>
+                            </div>                     
                         </div>
                     </div>
                 </div>
@@ -55,35 +54,37 @@
 </div>
 
 <div id="main-page" class="d-none">
+    <div class="col-3 d-flex justify-content-center mt-2 countdownCon">
+        <!--=============== カウントダウンタイマー ===============-->
+        <div id="timer" class="display__timer"><!-- 残り秒数が入ります --></div>
+
+        <!--=============== スコアミッションエリア ===============-->
+        <div class="display__score">
+            <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
+        </div>
+        
+    </div>
     <!-- <audio src="sounds\tetris-remix.mp3" autoplay loop> あなたのブラウザーは <code>audio</code> 要素をサポートしていません。</audio> -->
     <div class="vh-80 d-flex justify-content-center flex-wrap">
-        <div class="justify-content-center mt-5">
+        <div class="justify-content-center mt-3">
             <canvas id="canvas"><div class="gameline col-12"></div></canvas>
 
 
 
-    <!-- フィールド内にボーダーを引くためのdivタグです -->
-    <!-- * フィールドの下に固定したいので動かさないようにお願いします * -->
-    <div id="next">
-        <div class="next-border"></div>
-    </div>
-    <!-- ボタン -->
-    <div id="action">
+            <!-- フィールド内にボーダーを引くためのdivタグです -->
+            <!-- * フィールドの下に固定したいので動かさないようにお願いします * -->
+            <div id="next">
+                <div class="next-border"></div>
+            </div>    
+        </div>
 
-        <!-- <div id="action-reset" class="action__reset"></div> -->
-
-        <!--=============== カウントダウンタイマー ===============-->
-    <div id="timer" class="display__timer"><!-- 残り秒数が入ります --></div>
-
-    <!--=============== スコアミッションエリア ===============-->
-    <div class="display__score">
-        <div class="score__title">ゲームクリアまで残り<span id="display-lines-left"></span>ライン</div>
-    </div>
-
+    
         <div class="col-12 d-flex justify-content-center text-center mt-3">
             <!-- ボタン -->
-            <div id="action" >
-                <div id="action-reset" class="action__reset"></div>
+            <div id="action" class="d-flex">
+                <div id="action-reset" class="action__reset">
+                    <span class="material-symbols-outlined">restart_alt</span>
+                </div>
             </div>
         </div>
 
@@ -92,11 +93,12 @@
             <div id="controller">
                 <a id="arrow-left-btn" class="btn btn-light position-left"><span class="material-icons">west</span></a>
                 <a id="arrow-right-btn" class="btn btn-light position-right"><span class="material-icons">east</span></a>
-                <a id="arrow-down-btn" class="btn btn-light position-center"><span class="material-icons">south</span></a>
+                <a id="arrow-down-btn" class="btn btn-light position-bottom"><span class="material-icons">south</span></a>
                 <a id="arrow-up-btn" class="btn btn-light position-top"><span class="material-icons">north</span></a>
-                <a id="space-btn" class="btn btn-light">-</a>
-            </div>
+                <a id="space-btn" class="btn btn-light position-center"><span class="material-symbols-outlined">minimize</span></a>
 
+            </div>
+        
     </div>
 </div>
 
