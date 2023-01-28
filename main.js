@@ -1,34 +1,3 @@
-const config = {
-    initialPage : document.getElementById("initial-page"),
-    mainPage : document.getElementById("main-page"),
-}
-
-function gameStart() {
-    initialize();
-    drawAll();
-
-    //一定間隔でdropTetroを呼び出します
-    setInterval(dropTetro, DROP_SPEED);
-}
-
-function startTetris(){
-    displayNone(config.initialPage);
-    displayBlock(config.mainPage);
-    gameStart();
-}
-
-
-function displayBlock (ele) {
-    ele.classList.remove("d-none");
-    ele.classList.add("d-block");
-}
-
-function displayNone (ele) {
-    ele.classList.remove("d-block");
-    ele.classList.add("d-none");
-}
-
-
 //HTMLで図形を表示する機能のcanvas apiと二次元描画contextの取得
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
@@ -178,7 +147,8 @@ function initialize()
 }
 
 
-
+initialize();
+drawAll();
 
 
 
@@ -500,4 +470,3 @@ document.onkeydown = function(e)
     }
     drawAll();
 }
-
