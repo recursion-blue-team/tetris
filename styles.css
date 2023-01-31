@@ -181,6 +181,10 @@ body {
     box-shadow:  5px 5px 10px #bec1c9, -5px -5px 10px #ffffff;
 }
 
+#action {
+    margin-top: ;
+}
+
 #action span {
     background-color: #d6efff;
     font-weight: bold;
@@ -195,3 +199,4 @@ body {
 #action span:hover {
     box-shadow: inset 20px 20px 60px #b6cbd9, inset -20px -20px 60px #f6ffff;
 }
+
